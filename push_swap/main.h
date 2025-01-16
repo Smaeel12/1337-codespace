@@ -1,15 +1,23 @@
-/* ************************************************************************** */
-/*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   main.h                                             :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: codespace <codespace@student.42.fr>        +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/12/31 17:45:18 by codespace         #+#    #+#             */
-/*   Updated: 2024/12/31 17:46:12 by codespace        ###   ########.fr       */
-/*                                                                            */
-/* ************************************************************************** */
 
-#include "libft/libft.h"
 #include <stdlib.h>
-#include <stdio.h>
+#include <limits.h>
+
+// stack structure
+typedef struct s_stack
+{
+    int len;
+    int *content;
+} t_stack;
+
+typedef struct s_stks
+{
+    t_stack a;
+    t_stack b;
+} t_stks;
+
+
+// args processing
+long	ft_atol(const char *str);
+int ft_isdigit(char *str);
+int count_args(char **args);
+int process_args(t_stack *stack, char **args);
