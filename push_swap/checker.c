@@ -46,7 +46,6 @@ void	execute_line(t_stks *stks, char *line, int slen)
 		ft_exit_error(stks);
 }
 
-
 int	main(int ac, char **av)
 {
 	char	*line;

@@ -6,7 +6,7 @@
 /*   By: iboubkri <iboubkri@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/17 16:57:02 by iboubkri          #+#    #+#             */
-/*   Updated: 2025/01/27 20:22:21 by iboubkri         ###   ########.fr       */
+/*   Updated: 2025/01/30 10:55:21 by iboubkri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,6 +40,14 @@ static int	join_args(char **line, char **av)
 {
 	int	i;
 
+	i = 0;
+	while (av[i])
+	{
+		av[i] = ft_strtrim(av[i], " ");
+		if (!ft_strlen(av[i]))
+			return (-1);
+		i++;
+	}
 	i = 0;
 	*line = ft_strdup(av[i++]);
 	while (av[i])
@@ -102,6 +110,8 @@ int	ft_init_stacks(t_stks *stks, char **av)
 	int		count;
 
 	count = join_args(&args, av);
+	if (count == -1)
+		ft_exit_error(stks);
 	stks->a.content = (int *)malloc(count * sizeof(int));
 	stks->b.content = (int *)malloc(count * sizeof(int));
 	stks->meta.content = (int *)malloc(count * sizeof(int));

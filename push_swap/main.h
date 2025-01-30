@@ -6,15 +6,19 @@
 /*   By: iboubkri <iboubkri@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/25 14:22:26 by iboubkri          #+#    #+#             */
-/*   Updated: 2025/01/28 10:13:08 by iboubkri         ###   ########.fr       */
+/*   Updated: 2025/01/30 10:38:19 by iboubkri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "get_next_line.h"
-#include <limits.h>
-#include <stdio.h>
-#include <stdlib.h>
-#include <unistd.h>
+#ifndef MAIN_H
+# define MAIN_H
+
+# include "libft/get_next_line/get_next_line.h"
+# include "libft/libft/libft.h"
+# include <limits.h>
+# include <stdio.h>
+# include <stdlib.h>
+# include <unistd.h>
 
 typedef struct s_stack
 {
@@ -45,15 +49,10 @@ void		reverse_rotate_stack(t_stack stack, char *action);
 void		rotate_stack(t_stack stack, char *action);
 void		swap_stack(t_stack stack, char *action);
 
-// minilibft
-int			ft_strlen(char *str);
-char		*ft_strdup(char *str);
-char		*ft_strcat(char *dest, char *src);
-char		*ft_strnstr(const char *haystack, const char *needle, size_t len);
-long		ft_atol(const char *str);
-
 // bonus instructions
 int			swapper(t_stks *stks, int move);
 int			pusher(t_stks *stks, int move, int slen);
 int			rotater(t_stks *stks, int move);
 int			reverse_rotater(t_stks *stks, int move);
+
+#endif
