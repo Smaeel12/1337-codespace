@@ -6,12 +6,11 @@
 /*   By: iboubkri <iboubkri@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/01 10:15:12 by iboubkri          #+#    #+#             */
-/*   Updated: 2024/12/28 16:42:32 by iboubkri         ###   ########.fr       */
+/*   Updated: 2025/01/30 10:07:43 by iboubkri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "ft_printf_bonus.h"
-#include <stdio.h>
+#include "ft_printf.h"
 
 int	ft_putnbr(unsigned long int n, char *base, unsigned int lbase)
 {

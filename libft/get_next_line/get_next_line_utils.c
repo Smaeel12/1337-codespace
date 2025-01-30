@@ -6,35 +6,11 @@
 /*   By: iboubkri <iboubkri@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/24 17:38:05 by iboubkri          #+#    #+#             */
-/*   Updated: 2024/11/30 10:11:14 by iboubkri         ###   ########.fr       */
+/*   Updated: 2025/01/30 10:10:25 by iboubkri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "get_next_line.h"
-
-size_t	ft_strlen(const char *s)
-{
-	size_t	len;
-
-	len = 0;
-	while (s && s[len])
-		len++;
-	return (len);
-}
-
-char	*ft_strlcpy(char *dst, const char *src, size_t dstsize)
-{
-	size_t	i;
-
-	i = 0;
-	while (src && dst && src[i] && i < dstsize)
-	{
-		dst[i] = src[i];
-		i++;
-	}
-	dst[i] = '\0';
-	return (dst);
-}
 
 char	*init_buffer(char **ptr, size_t nmemb, size_t size)
 {

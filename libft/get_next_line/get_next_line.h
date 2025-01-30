@@ -6,7 +6,7 @@
 /*   By: iboubkri <iboubkri@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/30 10:12:06 by iboubkri          #+#    #+#             */
-/*   Updated: 2024/11/30 10:18:43 by iboubkri         ###   ########.fr       */
+/*   Updated: 2025/01/30 10:11:10 by iboubkri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,8 +18,8 @@
 #  define BUFFER_SIZE 1024
 # endif
 
+# include "../libft/libft.h"
 # include <limits.h>
-# include <stdio.h>
 # include <stdlib.h>
 # include <unistd.h>
 
