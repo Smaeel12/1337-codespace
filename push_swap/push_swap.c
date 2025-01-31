@@ -6,11 +6,12 @@
 /*   By: iboubkri <iboubkri@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/16 10:14:38 by iboubkri          #+#    #+#             */
-/*   Updated: 2025/01/30 10:37:21 by iboubkri         ###   ########.fr       */
+/*   Updated: 2025/01/31 09:56:48 by iboubkri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "main.h"
+
 
 static void	sort_small_stack(t_stks *stks)
 {
@@ -119,8 +120,10 @@ int	main(int ac, char **av)
 	t_stks	*stks;
 
 	stks = (t_stks *)malloc(sizeof(t_stks));
-	if (ac >= 2)
+	if (stks && ac >= 2)
 	{
+		stks->a.content = NULL;
+		stks->b.content = NULL;
 		ft_init_stacks(stks, &av[1]);
 		if (stks->a.len > 1 && !ft_is_sorted(stks->a))
 		{
@@ -130,9 +133,9 @@ int	main(int ac, char **av)
 			else
 				sort_small_stack(stks);
 		}
+		free(stks->a.content);
+		free(stks->b.content);
+		free(stks->meta.content);
 	}
-	free(stks->a.content);
-	free(stks->b.content);
-	free(stks->meta.content);
 	free(stks);
 }

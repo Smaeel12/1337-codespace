@@ -6,7 +6,7 @@
 /*   By: iboubkri <iboubkri@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/17 16:57:02 by iboubkri          #+#    #+#             */
-/*   Updated: 2025/01/30 10:55:21 by iboubkri         ###   ########.fr       */
+/*   Updated: 2025/01/31 10:02:22 by iboubkri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ static int	count_args(char *line)
 
 	i = 0;
 	count = 0;
-	while (line[i])
+	while (line && line[i])
 	{
 		if (line[i] == '+' || line[i] == '-')
 			i++;
@@ -41,18 +41,18 @@ static int	join_args(char **line, char **av)
 	int	i;
 
 	i = 0;
-	while (av[i])
+	*line = ft_strtrim(av[i++], " \t");
+	while (*line && av[i])
 	{
-		av[i] = ft_strtrim(av[i], " ");
-		if (!ft_strlen(av[i]))
+		av[i] = ft_strtrim(av[i], " \t");
+		if (!av[i] || (av[i] && !ft_strlen(av[i])))
+		{
+			free(av[i]);
+			free(*line);
 			return (-1);
-		i++;
-	}
-	i = 0;
-	*line = ft_strdup(av[i++]);
-	while (av[i])
-	{
+		}
 		*line = ft_strcat(*line, av[i]);
+		free(av[i]);
 		i++;
 	}
 	return (count_args(*line));
