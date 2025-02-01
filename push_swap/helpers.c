@@ -6,7 +6,7 @@
 /*   By: iboubkri <iboubkri@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/16 11:34:30 by iboubkri          #+#    #+#             */
-/*   Updated: 2025/01/30 16:18:41 by iboubkri         ###   ########.fr       */
+/*   Updated: 2025/01/31 12:20:08 by iboubkri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,7 @@ void	ft_exit_error(t_stks *stks)
 	write(2, "Error\n", 6);
 	free(stks->a.content);
 	free(stks->b.content);
+	free(stks->meta.content);
 	free(stks);
 	exit(1);
 }

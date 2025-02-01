@@ -1,7 +1,7 @@
 NAME = push_swap
 # Compiler and flags
 CC = cc
-CFLAGS = -Wall -Wextra -Werror -fsanitize=address -g3 -g
+CFLAGS = -Wall -Wextra -Werror
 
 # Source files
 SRCS = args_parser.c helpers.c instructions.c

@@ -6,7 +6,7 @@
 /*   By: iboubkri <iboubkri@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/28 10:00:11 by iboubkri          #+#    #+#             */
-/*   Updated: 2025/01/28 10:28:50 by iboubkri         ###   ########.fr       */
+/*   Updated: 2025/02/01 14:01:22 by iboubkri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,14 +62,15 @@ int	main(int ac, char **av)
 			if (!line)
 				break ;
 			execute_line(stks, line, slen);
+			free(line);
 		}
 		if (ft_is_sorted(stks->a) && !stks->b.len)
 			write(1, "OK\n", 3);
 		else
 			write(1, "KO\n", 3);
+		free(stks->a.content);
+		free(stks->b.content);
+		free(stks->meta.content);
 	}
-	free(stks->a.content);
-	free(stks->b.content);
-	free(stks->meta.content);
 	free(stks);
 }
