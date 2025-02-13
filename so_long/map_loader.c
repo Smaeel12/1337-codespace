@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   map_parser.c                                       :+:      :+:    :+:   */
+/*   map_loader.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: iboubkri <iboubkri@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/11 10:24:01 by iboubkri          #+#    #+#             */
-/*   Updated: 2025/02/13 10:19:50 by iboubkri         ###   ########.fr       */
+/*   Updated: 2025/02/13 13:24:01 by iboubkri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,9 +18,8 @@ static int	extract_map(t_mlx *mlx, int fd)
 
 	line = get_next_line(fd);
 	if (!line)
-		return (mlx->err = EMPTY_FILE, (1));
+		return (mlx->err = EMPTY_FILE, mlx->err);
 	mlx->map = (t_map){NULL, {ft_strlen(line) - 1, 0}, {0, 0}};
-	mlx->stats = (t_stats){0, 0};
 	while (line)
 	{
 		if ((ft_strlen(line) - !(!ft_strchr(line,
@@ -32,7 +31,7 @@ static int	extract_map(t_mlx *mlx, int fd)
 		line = get_next_line(fd);
 		mlx->map.msize.y += 1;
 	}
-	return (mlx->err = MAP_OK, (1));
+	return mlx->err;
 }
 
 static int	run_dfs_search(t_mlx *mlx, int fd)
@@ -42,14 +41,14 @@ static int	run_dfs_search(t_mlx *mlx, int fd)
 
 	extract_map(mlx, fd);
 	if (mlx->map.map == NULL || mlx->map.msize.y < MIN_MAP_HEIGHT || mlx->err)
-		return (ft_lstclear(&mlx->map.map, free), mlx->err);
+		return (ft_lstclear(&mlx->map.map, free), mlx->err = NOT_RECT_MAP);
 	origin = mlx->map.map;
 	mlx->map.map = ft_lstcopy(origin);
 	dfs_search(mlx, mlx->map.pp, 0);
 	if (mlx->err || mlx->stats.nclc < 1 || mlx->stats.next != 1
 		|| mlx->map.pp.x == 0)
 		return (ft_lstclear(&origin, free), ft_lstclear(&mlx->map.map, free),
-			1);
+			mlx->err = MAP_INVALID);
 	stats = mlx->stats;
 	ft_lstclear(&mlx->map.map, free);
 	mlx->stats = (t_stats){0, 0};
@@ -59,7 +58,7 @@ static int	run_dfs_search(t_mlx *mlx, int fd)
 		return (ft_lstclear(&origin, free), ft_lstclear(&mlx->map.map, free),
 			mlx->err = MAP_INVALID, mlx->err);
 	ft_lstclear(&mlx->map.map, free);
-	return (mlx->stats = stats, mlx->map.map = origin, mlx->err = MAP_OK, 0);
+	return (mlx->stats = stats, mlx->map.map = origin, mlx->err = MAP_OK);
 }
 
 int	check_map(t_mlx *mlx, char *filename)

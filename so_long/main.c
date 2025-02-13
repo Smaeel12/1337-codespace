@@ -6,7 +6,7 @@
 /*   By: iboubkri <iboubkri@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/06 17:01:02 by iboubkri          #+#    #+#             */
-/*   Updated: 2025/02/13 10:08:21 by iboubkri         ###   ########.fr       */
+/*   Updated: 2025/02/13 13:25:44 by iboubkri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,8 +16,10 @@ void	init_mlx(t_mlx *mlx)
 {
 	mlx->ptr = NULL;
 	mlx->win = NULL;
-	mlx->map.map = NULL;
-	mlx->tiles.wall = NULL;
+	mlx->map = (t_map){NULL, {0, 0}, {0, 0}};
+	mlx->tiles = (t_tiles){NULL, NULL, NULL, NULL, NULL, 0};
+	mlx->stats = (t_stats){0, 0};
+	mlx->err = 0;
 }
 
 int	main(int ac, char **av)
