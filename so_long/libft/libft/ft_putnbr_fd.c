@@ -1,40 +1,44 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main.c                                             :+:      :+:    :+:   */
+/*   ft_putnbr_fd.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: iboubkri <iboubkri@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/02/06 17:01:02 by iboubkri          #+#    #+#             */
-/*   Updated: 2025/02/13 10:08:21 by iboubkri         ###   ########.fr       */
+/*   Created: 2024/11/07 19:55:08 by iboubkri          #+#    #+#             */
+/*   Updated: 2024/11/07 20:57:09 by iboubkri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "includes/main.h"
+#include "libft.h"
 
-void	init_mlx(t_mlx *mlx)
+static void	putnbr_to_buffer(unsigned int n, int fd)
 {
-	mlx->ptr = NULL;
-	mlx->win = NULL;
-	mlx->map.map = NULL;
-	mlx->tiles.wall = NULL;
+	char	c;
+
+	if (!n)
+		return ;
+	c = (n % 10) + '0';
+	putnbr_to_buffer(n / 10, fd);
+	write(fd, &c, 1);
+	return ;
 }
 
-int	main(int ac, char **av)
+void	ft_putnbr_fd(int n, int fd)
 {
-	t_mlx	mlx;
+	unsigned int	num;
 
-	if (ac >= 2)
+	if (!n)
 	{
-		init_mlx(&mlx);
-		if (check_map(&mlx, av[1]))
-			kill_program(&mlx);
-		run_game(&mlx);
+		write(fd, "0", 1);
+		return ;
+	}
+	else if (n < 0)
+	{
+		write(fd, "-", 1);
+		num = -n;
 	}
 	else
-	{
-		ft_printf("Error\nInclude a map file .ber\n");
-		return (1);
-	}
-	return (0);
+		num = n;
+	putnbr_to_buffer(num, fd);
 }

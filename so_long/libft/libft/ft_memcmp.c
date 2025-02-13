@@ -1,40 +1,29 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main.c                                             :+:      :+:    :+:   */
+/*   ft_memcmp.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: iboubkri <iboubkri@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/02/06 17:01:02 by iboubkri          #+#    #+#             */
-/*   Updated: 2025/02/13 10:08:21 by iboubkri         ###   ########.fr       */
+/*   Created: 2024/10/28 21:48:00 by iboubkri          #+#    #+#             */
+/*   Updated: 2024/11/08 21:54:18 by iboubkri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "includes/main.h"
+#include "libft.h"
 
-void	init_mlx(t_mlx *mlx)
+int	ft_memcmp(const void *s1, const void *s2, size_t n)
 {
-	mlx->ptr = NULL;
-	mlx->win = NULL;
-	mlx->map.map = NULL;
-	mlx->tiles.wall = NULL;
-}
+	size_t	i;
 
-int	main(int ac, char **av)
-{
-	t_mlx	mlx;
-
-	if (ac >= 2)
+	if (!s1 && !s2)
+		return (0);
+	i = 0;
+	while (i < n)
 	{
-		init_mlx(&mlx);
-		if (check_map(&mlx, av[1]))
-			kill_program(&mlx);
-		run_game(&mlx);
-	}
-	else
-	{
-		ft_printf("Error\nInclude a map file .ber\n");
-		return (1);
+		if (((unsigned char *)s1)[i] != ((unsigned char *)s2)[i])
+			return (((unsigned char *)s1)[i] - ((unsigned char *)s2)[i]);
+		i++;
 	}
 	return (0);
 }

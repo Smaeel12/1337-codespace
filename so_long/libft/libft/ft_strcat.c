@@ -1,40 +1,42 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main.c                                             :+:      :+:    :+:   */
+/*   ft_strcat.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: iboubkri <iboubkri@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/02/06 17:01:02 by iboubkri          #+#    #+#             */
-/*   Updated: 2025/02/13 10:08:21 by iboubkri         ###   ########.fr       */
+/*   Created: 2025/01/30 10:17:38 by iboubkri          #+#    #+#             */
+/*   Updated: 2025/01/30 10:41:15 by iboubkri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "includes/main.h"
+#include "libft.h"
 
-void	init_mlx(t_mlx *mlx)
+char	*ft_strcat(char *dest, const char *src)
 {
-	mlx->ptr = NULL;
-	mlx->win = NULL;
-	mlx->map.map = NULL;
-	mlx->tiles.wall = NULL;
-}
+	char	*new;
+	int		i;
+	int		j;
+	int		dlen;
+	int		slen;
 
-int	main(int ac, char **av)
-{
-	t_mlx	mlx;
-
-	if (ac >= 2)
+	i = 0;
+	j = 0;
+	dlen = ft_strlen(dest);
+	slen = ft_strlen(src);
+	new = (char *)malloc(dlen + slen + 2);
+	while (dest[i])
 	{
-		init_mlx(&mlx);
-		if (check_map(&mlx, av[1]))
-			kill_program(&mlx);
-		run_game(&mlx);
+		new[i] = dest[i];
+		i++;
 	}
-	else
+	new[i++] = ' ';
+	while (src[j])
 	{
-		ft_printf("Error\nInclude a map file .ber\n");
-		return (1);
+		new[i + j] = src[j];
+		j++;
 	}
-	return (0);
+	new[i + j] = '\0';
+	free(dest);
+	return (new);
 }

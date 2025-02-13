@@ -1,40 +1,26 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main.c                                             :+:      :+:    :+:   */
+/*   ft_get_node.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: iboubkri <iboubkri@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/02/06 17:01:02 by iboubkri          #+#    #+#             */
-/*   Updated: 2025/02/13 10:08:21 by iboubkri         ###   ########.fr       */
+/*   Created: 2025/02/10 17:06:38 by iboubkri          #+#    #+#             */
+/*   Updated: 2025/02/10 17:50:29 by iboubkri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "includes/main.h"
+#include "libft.h"
 
-void	init_mlx(t_mlx *mlx)
+t_list	*ft_get_node(t_list *lst, int idx)
 {
-	mlx->ptr = NULL;
-	mlx->win = NULL;
-	mlx->map.map = NULL;
-	mlx->tiles.wall = NULL;
-}
+	int	i;
 
-int	main(int ac, char **av)
-{
-	t_mlx	mlx;
-
-	if (ac >= 2)
+	i = 0;
+	while (lst && i < idx)
 	{
-		init_mlx(&mlx);
-		if (check_map(&mlx, av[1]))
-			kill_program(&mlx);
-		run_game(&mlx);
+		lst = lst->next;
+		i++;
 	}
-	else
-	{
-		ft_printf("Error\nInclude a map file .ber\n");
-		return (1);
-	}
-	return (0);
+	return (lst);
 }

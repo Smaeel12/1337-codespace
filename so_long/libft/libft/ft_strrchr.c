@@ -1,40 +1,31 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main.c                                             :+:      :+:    :+:   */
+/*   ft_strrchr.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: iboubkri <iboubkri@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/02/06 17:01:02 by iboubkri          #+#    #+#             */
-/*   Updated: 2025/02/13 10:08:21 by iboubkri         ###   ########.fr       */
+/*   Created: 2024/10/28 21:24:12 by iboubkri          #+#    #+#             */
+/*   Updated: 2024/11/06 15:21:51 by iboubkri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "includes/main.h"
+#include "libft.h"
 
-void	init_mlx(t_mlx *mlx)
+char	*ft_strrchr(const char *s, int c)
 {
-	mlx->ptr = NULL;
-	mlx->win = NULL;
-	mlx->map.map = NULL;
-	mlx->tiles.wall = NULL;
-}
+	size_t	i;
+	size_t	slen;
+	char	*addr;
 
-int	main(int ac, char **av)
-{
-	t_mlx	mlx;
-
-	if (ac >= 2)
+	i = 0;
+	addr = NULL;
+	slen = ft_strlen(s);
+	while (i < slen + 1)
 	{
-		init_mlx(&mlx);
-		if (check_map(&mlx, av[1]))
-			kill_program(&mlx);
-		run_game(&mlx);
+		if (s[i] == (char)c)
+			addr = (char *)&s[i];
+		i++;
 	}
-	else
-	{
-		ft_printf("Error\nInclude a map file .ber\n");
-		return (1);
-	}
-	return (0);
+	return (addr);
 }

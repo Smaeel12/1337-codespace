@@ -1,40 +1,25 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main.c                                             :+:      :+:    :+:   */
+/*   get_next_line.h                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: iboubkri <iboubkri@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/02/06 17:01:02 by iboubkri          #+#    #+#             */
-/*   Updated: 2025/02/13 10:08:21 by iboubkri         ###   ########.fr       */
+/*   Created: 2024/11/30 10:12:06 by iboubkri          #+#    #+#             */
+/*   Updated: 2025/02/10 17:42:43 by iboubkri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "includes/main.h"
+#ifndef GET_NEXT_LINE_H
+# define GET_NEXT_LINE_H
 
-void	init_mlx(t_mlx *mlx)
-{
-	mlx->ptr = NULL;
-	mlx->win = NULL;
-	mlx->map.map = NULL;
-	mlx->tiles.wall = NULL;
-}
+# ifndef BUFFER_SIZE
+#  define BUFFER_SIZE 10
+# endif
 
-int	main(int ac, char **av)
-{
-	t_mlx	mlx;
+# include "../libft/libft.h"
+# include <unistd.h>
 
-	if (ac >= 2)
-	{
-		init_mlx(&mlx);
-		if (check_map(&mlx, av[1]))
-			kill_program(&mlx);
-		run_game(&mlx);
-	}
-	else
-	{
-		ft_printf("Error\nInclude a map file .ber\n");
-		return (1);
-	}
-	return (0);
-}
+char	*get_next_line(int fd);
+
+#endif

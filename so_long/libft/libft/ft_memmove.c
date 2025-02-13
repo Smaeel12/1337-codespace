@@ -1,40 +1,39 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main.c                                             :+:      :+:    :+:   */
+/*   ft_memmove.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: iboubkri <iboubkri@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/02/06 17:01:02 by iboubkri          #+#    #+#             */
-/*   Updated: 2025/02/13 10:08:21 by iboubkri         ###   ########.fr       */
+/*   Created: 2024/10/28 21:28:53 by iboubkri          #+#    #+#             */
+/*   Updated: 2024/11/08 21:57:23 by iboubkri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "includes/main.h"
+#include "libft.h"
 
-void	init_mlx(t_mlx *mlx)
+void	*ft_memmove(void *dst, const void *src, size_t len)
 {
-	mlx->ptr = NULL;
-	mlx->win = NULL;
-	mlx->map.map = NULL;
-	mlx->tiles.wall = NULL;
-}
+	size_t	i;
 
-int	main(int ac, char **av)
-{
-	t_mlx	mlx;
-
-	if (ac >= 2)
+	i = 0;
+	if (dst == src)
+		return (dst);
+	if (dst < src)
 	{
-		init_mlx(&mlx);
-		if (check_map(&mlx, av[1]))
-			kill_program(&mlx);
-		run_game(&mlx);
+		while (i < len)
+		{
+			((unsigned char *)dst)[i] = ((unsigned char *)src)[i];
+			i++;
+		}
 	}
 	else
 	{
-		ft_printf("Error\nInclude a map file .ber\n");
-		return (1);
+		while (len)
+		{
+			((unsigned char *)dst)[len - 1] = ((unsigned char *)src)[len - 1];
+			len--;
+		}
 	}
-	return (0);
+	return (dst);
 }

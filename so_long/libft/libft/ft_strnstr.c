@@ -1,40 +1,35 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main.c                                             :+:      :+:    :+:   */
+/*   ft_strnstr.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: iboubkri <iboubkri@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/02/06 17:01:02 by iboubkri          #+#    #+#             */
-/*   Updated: 2025/02/13 10:08:21 by iboubkri         ###   ########.fr       */
+/*   Created: 2024/10/28 21:24:14 by iboubkri          #+#    #+#             */
+/*   Updated: 2025/02/10 17:50:04 by iboubkri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "includes/main.h"
+#include "libft.h"
 
-void	init_mlx(t_mlx *mlx)
+char	*ft_strnstr(const char *haystack, const char *needle, size_t len)
 {
-	mlx->ptr = NULL;
-	mlx->win = NULL;
-	mlx->map.map = NULL;
-	mlx->tiles.wall = NULL;
-}
+	size_t	i;
+	size_t	j;
 
-int	main(int ac, char **av)
-{
-	t_mlx	mlx;
-
-	if (ac >= 2)
+	i = 0;
+	j = 0;
+	if (!needle[j])
+		return ((char *)haystack);
+	while (haystack[i] && i < len)
 	{
-		init_mlx(&mlx);
-		if (check_map(&mlx, av[1]))
-			kill_program(&mlx);
-		run_game(&mlx);
+		j = 0;
+		while (needle && needle[j] && haystack[j + i] && needle[j] == haystack[j
+				+ i] && i + j < len)
+			j++;
+		if (!needle[j])
+			return ((char *)haystack + i);
+		i++;
 	}
-	else
-	{
-		ft_printf("Error\nInclude a map file .ber\n");
-		return (1);
-	}
-	return (0);
+	return (NULL);
 }
