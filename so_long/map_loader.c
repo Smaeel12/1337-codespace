@@ -6,7 +6,7 @@
 /*   By: iboubkri <iboubkri@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/11 10:24:01 by iboubkri          #+#    #+#             */
-/*   Updated: 2025/02/13 13:24:01 by iboubkri         ###   ########.fr       */
+/*   Updated: 2025/02/13 13:29:23 by iboubkri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,7 @@ static int	extract_map(t_mlx *mlx, int fd)
 		line = get_next_line(fd);
 		mlx->map.msize.y += 1;
 	}
-	return mlx->err;
+	return (mlx->err);
 }
 
 static int	run_dfs_search(t_mlx *mlx, int fd)
