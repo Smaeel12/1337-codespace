@@ -6,7 +6,7 @@
 /*   By: iboubkri <iboubkri@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/10 17:49:26 by iboubkri          #+#    #+#             */
-/*   Updated: 2025/02/13 10:19:32 by iboubkri         ###   ########.fr       */
+/*   Updated: 2025/02/14 12:03:54 by iboubkri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,8 @@
 # include <fcntl.h>
 # include <stdlib.h>
 # include <mlx.h>
+#include <stdio.h>
+#include <math.h>
 
 # define MIN_MAP_HEIGHT 3
 # define SIZE 32
@@ -32,8 +34,8 @@ typedef struct s_stats
 
 typedef struct s_point
 {
-	int		x;
-	int		y;
+	int 		x;
+	int 		y;
 }			t_point;
 
 typedef struct s_tiles
@@ -80,8 +82,8 @@ int			check_map(t_mlx *mlx, char *filename);
 int			run_game(t_mlx *mlx);
 void		kill_program(t_mlx *mlx);
 void		render_map(t_mlx *mlx);
-int			move_player(t_mlx *mlx, int x, int y);
-void		put_image(t_mlx *mlx, void *img, int x, int y);
+int	move_player(t_mlx *mlx, int  x, int  y);
+void	put_image(t_mlx *mlx, void *img, int  x, int  y);
 void		print_error(t_error error);
 
 #endif

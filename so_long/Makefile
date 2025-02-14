@@ -1,6 +1,6 @@
 # Compiler and flags
 CC = cc
-CFLAGS = -Wall -Wextra -Werror -g
+CFLAGS = -Wall -Wextra -Werror -g -fsanitize=address -g3
 
 # Source files
 SRCS= main.c game_setup.c error_handler.c resource_cleanup.c player_controls.c \
