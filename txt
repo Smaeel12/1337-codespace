@@ -1,0 +1,21 @@
+int get_rect_distance(int rect1_x, int rect1_width, int rect2_x, int rect2_width)
+{
+    // Find the right edge of each rectangle
+    int rect1_right = rect1_x + rect1_width;
+    int rect2_right = rect2_x + rect2_width;
+
+    // If rectangles overlap, distance is 0
+    if (rect1_x <= rect2_right && rect2_x <= rect1_right)
+        return 0;
+
+    // If rect1 is to the left of rect2
+    if (rect1_right < rect2_x)
+        return rect2_x - rect1_right;
+
+    // If rect2 is to the left of rect1
+    return rect1_x - rect2_right;
+}
+
+max(|𝑥1−𝑥2|−(𝑤1+𝑤2)/2,|𝑦1−𝑦2|−(𝑏1+𝑏2)/2);
+(abs(x1-x2)*2<(w1+w2)) and (abs(y1-y2)*2<(h1+h2));
+sqrt{({x_2 - x_1})^2 + {(y_2 - y_1})^2};
