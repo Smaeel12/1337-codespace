@@ -1,0 +1,8 @@
+{
+    "files.associations": {
+        "main.h": "c",
+        "fcntl.h": "c",
+        "ft_printf.h": "c"
+    },
+    "editor.formatOnSave": false
+}
