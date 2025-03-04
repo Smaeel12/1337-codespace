@@ -6,7 +6,7 @@
 /*   By: iboubkri <iboubkri@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/28 10:00:11 by iboubkri          #+#    #+#             */
-/*   Updated: 2025/02/01 14:01:22 by iboubkri         ###   ########.fr       */
+/*   Updated: 2025/02/07 16:54:37 by iboubkri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,6 +42,7 @@ void	execute_line(t_stks *stks, char *line, int slen)
 	res += reverse_rotater(stks, 1 << ft_strcmp(line, "rra\n") | 1 << (2
 				* ft_strcmp(line, "rrb\n")) | 1 << (3 * ft_strcmp(line,
 					"rrr\n")));
+	free(line);
 	if (res == 0)
 		ft_exit_error(stks);
 }
@@ -53,7 +54,7 @@ int	main(int ac, char **av)
 	int		slen;
 
 	stks = (t_stks *)malloc(sizeof(t_stks));
-	if (ac >= 2)
+	if (stks && ac >= 2)
 	{
 		slen = ft_init_stacks(stks, &av[1]);
 		while (1)
@@ -62,7 +63,6 @@ int	main(int ac, char **av)
 			if (!line)
 				break ;
 			execute_line(stks, line, slen);
-			free(line);
 		}
 		if (ft_is_sorted(stks->a) && !stks->b.len)
 			write(1, "OK\n", 3);

@@ -6,7 +6,7 @@
 /*   By: iboubkri <iboubkri@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/11 10:38:05 by iboubkri          #+#    #+#             */
-/*   Updated: 2025/02/14 12:06:33 by iboubkri         ###   ########.fr       */
+/*   Updated: 2025/02/25 13:00:39 by iboubkri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,17 +34,21 @@ int	read_tiles(t_mlx *mlx)
 
 int	keypress(int keycode, t_mlx *mlx)
 {
-	if (keycode == 'w')
-		move_player(mlx, 0, -5);
-	else if (keycode == 's')
-		move_player(mlx, 0, 5);
-	if (keycode == 'a')
-		move_player(mlx, -5, 0);
 	if (keycode == 'd')
-		move_player(mlx, 5, 0);
+		move_player(mlx, 1, 0);
 	if (keycode == ESCAPE)
 		kill_program(mlx);
 	return (1);
+}
+
+int animate_player(t_mlx *mlx)
+{
+	static int i = 0;
+	if (i >= 2)
+		i = 0;
+	mlx_put_image_to_window(mlx->ptr, mlx->win, mlx->player.idle->frames[i++], mlx->map.pp.x, mlx->map.pp.y);
+	usleep(0.2 * MICROSEC);
+	return 0;
 }
 
 int	run_game(t_mlx *mlx)
@@ -58,9 +62,9 @@ int	run_game(t_mlx *mlx)
 		kill_program(mlx);
 	mlx->win = mlx_new_window(mlx->ptr, mlx->map.msize.x * mlx->tiles.tsize, mlx->map.msize.y * mlx->tiles.tsize, "GAME OF THRONES");
 	render_map(mlx);
-	mlx->map.pp.x *= mlx->tiles.tsize;
-	mlx->map.pp.y *= mlx->tiles.tsize;
+	init_animation(mlx);
 	mlx_hook(mlx->win, 2, 1L<<0, keypress, mlx);
+	mlx_loop_hook(mlx->ptr, animate_player, mlx);
 	mlx_loop(mlx->ptr);
 	return (1);
 }

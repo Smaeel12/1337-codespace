@@ -6,7 +6,7 @@
 /*   By: iboubkri <iboubkri@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/10 17:49:26 by iboubkri          #+#    #+#             */
-/*   Updated: 2025/02/14 12:03:54 by iboubkri         ###   ########.fr       */
+/*   Updated: 2025/02/26 09:46:31 by iboubkri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,9 +22,11 @@
 #include <stdio.h>
 #include <math.h>
 
+
 # define MIN_MAP_HEIGHT 3
 # define SIZE 32
 # define ESCAPE 65307
+# define MICROSEC 1000000
 
 typedef struct s_stats
 {
@@ -34,19 +36,41 @@ typedef struct s_stats
 
 typedef struct s_point
 {
-	int 		x;
-	int 		y;
+	int	x;
+	int	y;
 }			t_point;
 
-typedef struct s_tiles
+typedef struct s_frames
 {
-	void	*wall;
-	void	*exit;
-	void	*player;
-	void	*clc;
-	void	*space;
-	int		tsize;
-}			t_tiles;
+	void **frames;
+	int tframes;
+} t_frames;
+
+typedef struct s_assets
+{
+	t_frames wall;
+	t_frames exit;
+	t_frames player;
+	t_frames clc;
+	t_frames space;
+}			t_assets;
+
+typedef struct s_map
+{
+	t_list	*map;
+	t_point	msize;
+	t_point	pp;
+}			t_map;
+
+typedef struct s_img
+{
+	void *ptr;
+	char *addr;
+	int size;
+	int bpp;
+	int sline;
+	int endian;
+} t_img;
 
 typedef enum s_error
 {
@@ -57,33 +81,27 @@ typedef enum s_error
 	FILE_NOT_FOUND = 4,
 	MAP_INVALID = 5,
 	MLX_INS = 6,
-	TILES_ERR = 7,
+	ASSETS_ERR = 7,
 }			t_error;
 
-typedef struct s_map
+
+typedef struct s_player_animation
 {
-	t_list	*map;
-	t_point	msize;
-	t_point	pp;
-}			t_map;
+	t_frames walk[4];
+	t_frames idle[4];
+} t_player_animation;
 
 typedef struct s_mlx
 {
 	void	*ptr;
 	void	*win;
-	t_tiles	tiles;
+	t_assets	assets;
 	t_stats	stats;
 	t_map	map;
 	t_error	err;
+	t_player_animation player;
 }			t_mlx;
 
-int			dfs_search(t_mlx *mlx, t_point start, char s);
-int			check_map(t_mlx *mlx, char *filename);
-int			run_game(t_mlx *mlx);
-void		kill_program(t_mlx *mlx);
-void		render_map(t_mlx *mlx);
-int	move_player(t_mlx *mlx, int  x, int  y);
-void	put_image(t_mlx *mlx, void *img, int  x, int  y);
-void		print_error(t_error error);
+
 
 #endif

@@ -6,7 +6,7 @@
 /*   By: iboubkri <iboubkri@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/01 10:15:59 by iboubkri          #+#    #+#             */
-/*   Updated: 2024/12/29 09:05:27 by iboubkri         ###   ########.fr       */
+/*   Updated: 2025/03/04 15:29:52 by iboubkri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,9 @@
 # define FT_PRINTF_H
 # include <stdarg.h>
 # include <unistd.h>
+
+# define RED "\033[31;1m"
+# define RESET "\033[0m"
 
 int	ft_printf(const char *format, ...);
 

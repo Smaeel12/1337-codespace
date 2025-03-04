@@ -1,10 +1,10 @@
 # Compiler and flags
 CC = cc
-CFLAGS = -Wall -Wextra -Werror -g -fsanitize=address -g3
+CFLAGS = -Wall -Wextra -Werror -g #-fsanitize=address -g3
 
 # Source files
 SRCS= main.c game_setup.c error_handler.c resource_cleanup.c player_controls.c \
-	graphics_utils.c map_validator.c map_loader.c map_renderer.c
+	graphics_utils.c map_validator.c map_loader.c map_renderer.c animation_init.c
 
 # Object files
 OBJS= $(SRCS:.c=.o)

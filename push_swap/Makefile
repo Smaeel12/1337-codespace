@@ -1,4 +1,3 @@
-NAME = push_swap
 # Compiler and flags
 CC = cc
 CFLAGS = -Wall -Wextra -Werror

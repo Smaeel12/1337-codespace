@@ -6,7 +6,7 @@
 /*   By: iboubkri <iboubkri@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/16 10:14:38 by iboubkri          #+#    #+#             */
-/*   Updated: 2025/01/31 19:06:47 by iboubkri         ###   ########.fr       */
+/*   Updated: 2025/02/28 17:07:29 by iboubkri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -121,9 +121,6 @@ int	main(int ac, char **av)
 	stks = (t_stks *)malloc(sizeof(t_stks));
 	if (stks && ac >= 2)
 	{
-		stks->a.content = NULL;
-		stks->b.content = NULL;
-		stks->meta.content = NULL;
 		ft_init_stacks(stks, &av[1]);
 		if (stks->a.len > 1 && !ft_is_sorted(stks->a))
 		{

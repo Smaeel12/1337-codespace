@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   kill.c                                             :+:      :+:    :+:   */
+/*   resource_cleanup.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: iboubkri <iboubkri@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/12 16:35:11 by iboubkri          #+#    #+#             */
-/*   Updated: 2025/02/13 10:04:58 by iboubkri         ###   ########.fr       */
+/*   Updated: 2025/02/25 12:52:53 by iboubkri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,9 +25,31 @@ void	destroy_tiles(t_mlx *mlx)
 
 void	kill_program(t_mlx *mlx)
 {
+	int i;
+	int j;
+
 	if (mlx->err)
 		print_error(mlx->err);
 	ft_lstclear(&mlx->map.map, free);
+
+	i = 0;
+	while (i < mlx->player.walk->tframes)
+	{
+		j = 0;
+		while (j < 4)
+			mlx_destroy_display(mlx->player.walk[i].frames[j++]);
+		free(mlx->player.walk[i].frames);
+	}
+
+	i = 0;
+	while (i < mlx->player.idle->tframes)
+	{
+		j = 0;
+		while (j < 4)
+			mlx_destroy_display(mlx->player.idle[i].frames[j++]);
+		free(mlx->player.idle[i].frames);
+	}
+
 	destroy_tiles(mlx);
 	if (mlx->win)
 		mlx_destroy_window(mlx->ptr, mlx->win);

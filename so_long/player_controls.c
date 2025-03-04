@@ -6,20 +6,26 @@
 /*   By: iboubkri <iboubkri@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/12 18:14:19 by iboubkri          #+#    #+#             */
-/*   Updated: 2025/02/14 12:17:28 by iboubkri         ###   ########.fr       */
+/*   Updated: 2025/02/24 18:51:31 by iboubkri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "includes/main.h"
 
-int move_player(t_mlx *mlx, int px, int py)
+int	move_player(t_mlx *mlx, int x, int y)
 {
-	// if (((char *) (ft_get_node(mlx->map.map, (mlx->map.pp.y / mlx->tiles.tsize) + !!py)->content)) [(mlx->map.pp.y / mlx->tiles.tsize) + !!px])
-	printf("[%i \\ %i] \n", (mlx->map.pp.y / mlx->tiles.tsize) + !!py, (mlx->map.pp.x / mlx->tiles.tsize) + !!px);
-	
-	mlx_put_image_to_window(mlx->ptr, mlx->win, mlx->tiles.space, mlx->map.pp.x, mlx->map.pp.y);
-	mlx->map.pp.x += px;
-	mlx->map.pp.y += py;
-	mlx_put_image_to_window(mlx->ptr, mlx->win, mlx->tiles.player, mlx->map.pp.x, mlx->map.pp.y);
-	return(0);
+	char	*new_pos;
+
+	new_pos = ft_get_node(mlx->map.map, mlx->map.pp.y + y)->content;
+	new_pos += mlx->map.pp.x + x;
+
+	if (*new_pos == '1' || (*new_pos == 'E' && mlx->stats.nclc))
+		return 0;
+	if (*new_pos == 'E' && !mlx->stats.nclc)
+		kill_program(mlx);
+	else if (*new_pos == 'C')
+		return *new_pos = '0', mlx->stats.nclc -= 1, 0;
+	mlx->map.pp.x += x;
+	mlx->map.pp.y += y;
+	return 0;
 }
