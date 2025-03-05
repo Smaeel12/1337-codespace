@@ -4,7 +4,7 @@ CFLAGS = -Wall -Wextra -Werror -g #-fsanitize=address -g3
 
 # Source files
 SRCS = main.c resource_cleanup.c map_loader.c animation_init.c map_validator.c\
-		map_renderer.c graphics_utils.c player_controls.c
+		map_renderer.c graphics_utils.c player_controls.c  animation_utils.c
 
 # Object files
 OBJS= $(SRCS:.c=.o)

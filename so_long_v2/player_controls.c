@@ -6,7 +6,7 @@
 /*   By: iboubkri <iboubkri@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/12 18:14:19 by iboubkri          #+#    #+#             */
-/*   Updated: 2025/03/02 21:47:36 by iboubkri         ###   ########.fr       */
+/*   Updated: 2025/03/05 03:50:27 by iboubkri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,10 +18,11 @@ int	move_player(t_mlx *mlx, int x, int y)
 	char	*c;
 
 	c = &mlx->map.arr[mlx->map.stats.pc.y + y][mlx->map.stats.pc.x + x];
+	printf("%i || %i\n", mlx->pc_anim.offset.y, mlx->pc_anim.offset.x);
+	if (mlx->pc_anim.offset.x || mlx->pc_anim.offset.y)
+		return 0;
 	if (*c == '1' || (*c == 'E' && mlx->map.stats.eaten < mlx->map.stats.nclc))
 		return (0);
-	else if ((*c == 'E' && mlx->map.stats.eaten >= mlx->map.stats.nclc) || *c == 'X')
-		return (mlx->err = EXT_OK, exit_program(mlx));
 	else if (*c == 'C')
 	{
 		i = 0;
@@ -40,9 +41,9 @@ int	move_player(t_mlx *mlx, int x, int y)
 		put_image(mlx, mlx->assets.space.frames[0], (mlx->map.stats.pc.x + x)
 			* SIZE, (mlx->map.stats.pc.y + y) * SIZE);
 	}
-	if (x && !mlx->pc_anim.offset.y)
-		mlx->pc_anim.direction.x = x;
-	if (y && !mlx->pc_anim.offset.x)
-		mlx->pc_anim.direction.y = y;
+	else if ((*c == 'E' && mlx->map.stats.eaten >= mlx->map.stats.nclc) || *c == 'X')
+		mlx->err = EXT_SIGNAL;
+	mlx->pc_anim.direction.x = x;
+	mlx->pc_anim.direction.y = y;
 	return (0);
 }

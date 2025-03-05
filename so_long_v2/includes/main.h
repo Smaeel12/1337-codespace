@@ -6,7 +6,7 @@
 /*   By: iboubkri <iboubkri@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/10 17:49:26 by iboubkri          #+#    #+#             */
-/*   Updated: 2025/03/02 21:29:39 by iboubkri         ###   ########.fr       */
+/*   Updated: 2025/03/05 03:51:05 by iboubkri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,6 +69,7 @@ typedef enum s_error
 	LOAD_ASSETS = 11,
 	MLX_WIN = 12,
 	EXT_OK = 13,
+	EXT_SIGNAL,
 }						t_error;
 
 typedef struct s_map
@@ -138,5 +139,11 @@ int						exit_program(t_mlx *mlx);
 int						free_array(char **arr);
 
 int						move_player(t_mlx *mlx, int x, int y);
+
+
+int						animate_player(t_mlx *mlx);
+int						animate_enemy(t_mlx *mlx);
+int						animate_clc(t_mlx *mlx);
+int						reset_player_animation(t_mlx *mlx);
 
 #endif
