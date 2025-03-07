@@ -6,11 +6,11 @@
 /*   By: iboubkri <iboubkri@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/09 12:51:43 by iboubkri          #+#    #+#             */
-/*   Updated: 2024/11/09 17:36:40 by iboubkri         ###   ########.fr       */
+/*   Updated: 2025/03/06 15:11:17 by iboubkri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
+#include "../libft.h"
 
 t_list	*ft_lstnew(void *content)
 {

@@ -6,11 +6,11 @@
 /*   By: iboubkri <iboubkri@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/30 14:37:55 by iboubkri          #+#    #+#             */
-/*   Updated: 2024/11/07 19:11:27 by iboubkri         ###   ########.fr       */
+/*   Updated: 2025/03/06 15:11:17 by iboubkri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
+#include "../libft.h"
 
 static size_t	count_words(char const *s, char c)
 {

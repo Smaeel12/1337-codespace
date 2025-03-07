@@ -6,15 +6,15 @@
 /*   By: iboubkri <iboubkri@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/09 12:57:45 by iboubkri          #+#    #+#             */
-/*   Updated: 2024/11/09 14:08:34 by iboubkri         ###   ########.fr       */
+/*   Updated: 2025/03/06 15:11:23 by iboubkri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
+#include "../libft.h"
 
-int	ft_lstsize(t_list *lst)
+int ft_lstsize(t_list *lst)
 {
-	int	size;
+	int size;
 
 	size = 0;
 	while (lst)

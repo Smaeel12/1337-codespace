@@ -6,17 +6,17 @@
 /*   By: iboubkri <iboubkri@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/30 14:37:55 by iboubkri          #+#    #+#             */
-/*   Updated: 2024/11/07 19:11:27 by iboubkri         ###   ########.fr       */
+/*   Updated: 2025/03/06 15:11:17 by iboubkri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
+#include "../libft.h"
 
-static size_t	count_words(char const *s, char c)
+static size_t count_words(char const *s, char c)
 {
-	size_t	count;
-	size_t	slen;
-	size_t	i;
+	size_t count;
+	size_t slen;
+	size_t i;
 
 	count = 0;
 	i = 0;
@@ -30,9 +30,9 @@ static size_t	count_words(char const *s, char c)
 	return (count);
 }
 
-static void	free_all(char **arr)
+static void free_all(char **arr)
 {
-	size_t	i;
+	size_t i;
 
 	i = 0;
 	while (arr[i])
@@ -44,11 +44,11 @@ static void	free_all(char **arr)
 	free(arr);
 }
 
-static void	fill_array(char **arr, char const *s, char c)
+static void fill_array(char **arr, char const *s, char c)
 {
-	size_t	i;
-	size_t	j;
-	size_t	k;
+	size_t i;
+	size_t j;
+	size_t k;
 
 	i = 0;
 	k = 0;
@@ -63,7 +63,7 @@ static void	fill_array(char **arr, char const *s, char c)
 			if (!arr[k])
 			{
 				free_all(arr);
-				return ;
+				return;
 			}
 			i = i + j - 1;
 			k++;
@@ -73,10 +73,10 @@ static void	fill_array(char **arr, char const *s, char c)
 	arr[k] = NULL;
 }
 
-char	**ft_split(char const *s, char c)
+char **ft_split(char const *s, char c)
 {
-	char	**arr;
-	size_t	num;
+	char **arr;
+	size_t num;
 
 	if (!s)
 		return (NULL);

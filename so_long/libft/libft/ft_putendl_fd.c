@@ -6,16 +6,16 @@
 /*   By: iboubkri <iboubkri@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/07 19:48:55 by iboubkri          #+#    #+#             */
-/*   Updated: 2024/11/07 19:55:15 by iboubkri         ###   ########.fr       */
+/*   Updated: 2025/03/06 15:11:20 by iboubkri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
+#include "../libft.h"
 
-void	ft_putendl_fd(char *s, int fd)
+void ft_putendl_fd(char *s, int fd)
 {
 	if (!s && fd < 0)
-		return ;
+		return;
 	write(fd, s, ft_strlen(s));
 	write(fd, &"\n", 1);
 }

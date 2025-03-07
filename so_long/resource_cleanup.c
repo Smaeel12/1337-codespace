@@ -6,51 +6,101 @@
 /*   By: iboubkri <iboubkri@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/12 16:35:11 by iboubkri          #+#    #+#             */
-/*   Updated: 2025/02/25 12:52:53 by iboubkri         ###   ########.fr       */
+/*   Updated: 2025/03/02 21:32:18 by iboubkri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "includes/main.h"
 
-void	destroy_tiles(t_mlx *mlx)
+static void	clear_assets(void *mlx_ptr, t_assets *assets)
 {
-	if (!mlx->ptr || !mlx->tiles.wall)
-		return ;
-	mlx_destroy_image(mlx->ptr, mlx->tiles.wall);
-	mlx_destroy_image(mlx->ptr, mlx->tiles.exit);
-	mlx_destroy_image(mlx->ptr, mlx->tiles.player);
-	mlx_destroy_image(mlx->ptr, mlx->tiles.clc);
-	mlx_destroy_image(mlx->ptr, mlx->tiles.space);
+	int	i;
+
+	i = 0;
+	while (i < assets->clc.tframes)
+		mlx_destroy_image(mlx_ptr, assets->clc.frames[i++]);
+	free(assets->clc.frames);
+	i = 0;
+	while (i < assets->exit.tframes)
+		mlx_destroy_image(mlx_ptr, assets->exit.frames[i++]);
+	free(assets->exit.frames);
+	i = 0;
+	while (i < assets->wall.tframes)
+		mlx_destroy_image(mlx_ptr, assets->wall.frames[i++]);
+	free(assets->wall.frames);
+	i = 0;
+	while (i < assets->space.tframes)
+		mlx_destroy_image(mlx_ptr, assets->space.frames[i++]);
+	free(assets->space.frames);
+	i = 0;
+	while (i < assets->enemy.tframes)
+		mlx_destroy_image(mlx_ptr, assets->enemy.frames[i++]);
+	free(assets->enemy.frames);
 }
 
-void	kill_program(t_mlx *mlx)
+int	map_errors(t_error error)
 {
-	int i;
-	int j;
+	ft_printf(RED "Error\n" RESET);
+	printf("%i\n", error);
+	return (0);
+}
 
-	if (mlx->err)
-		print_error(mlx->err);
-	ft_lstclear(&mlx->map.map, free);
+int	mlx_errors(t_error error)
+{
+	ft_printf(RED "Error\n" RESET);
+	printf("%i\n", error);
+	return (0);
+}
+
+int	free_array(char **arr)
+{
+	int	i;
 
 	i = 0;
-	while (i < mlx->player.walk->tframes)
-	{
-		j = 0;
-		while (j < 4)
-			mlx_destroy_display(mlx->player.walk[i].frames[j++]);
-		free(mlx->player.walk[i].frames);
-	}
+	while (arr && arr[i])
+		free(arr[i++]);
+	free(arr);
+	return (0);
+}
+
+int	clear_stats(t_stats *stats)
+{
+	free(stats->clc_poss);
+	free(stats->enemy_poss);
+	return (0);
+}
+
+int	clear_player(void *mlx_ptr, t_frames *anim)
+{
+	int	i;
+	int	j;
 
 	i = 0;
-	while (i < mlx->player.idle->tframes)
+	while (i < 4)
 	{
 		j = 0;
-		while (j < 4)
-			mlx_destroy_display(mlx->player.idle[i].frames[j++]);
-		free(mlx->player.idle[i].frames);
+		while (j < anim[i].tframes)
+		{
+			mlx_destroy_image(mlx_ptr, anim[i].frames[j]);
+			j++;
+		}
+		free(anim[i].frames);
+		i++;
 	}
+	return (0);
+}
 
-	destroy_tiles(mlx);
+int	exit_program(t_mlx *mlx)
+{
+	if (mlx->map.err)
+		mlx_errors(mlx->map.err);
+	if (mlx->map.err)
+		map_errors(mlx->map.err);
+	free_array(mlx->map.arr);
+	clear_stats(&mlx->map.stats);
+	clear_assets(mlx->ptr, &mlx->assets);
+	clear_player(mlx->ptr, mlx->pc_anim.idle);
+	clear_player(mlx->ptr, mlx->pc_anim.walk);
 	if (mlx->win)
 		mlx_destroy_window(mlx->ptr, mlx->win);
 	if (mlx->ptr)

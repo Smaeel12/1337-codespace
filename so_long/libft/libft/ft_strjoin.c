@@ -6,17 +6,17 @@
 /*   By: iboubkri <iboubkri@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/29 13:06:20 by iboubkri          #+#    #+#             */
-/*   Updated: 2024/11/01 09:52:52 by iboubkri         ###   ########.fr       */
+/*   Updated: 2025/03/06 15:11:18 by iboubkri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
+#include "../libft.h"
 
-char	*ft_strjoin(char const *s1, char const *s2)
+char *ft_strjoin(char const *s1, char const *s2)
 {
-	size_t	s1_len;
-	size_t	s2_len;
-	char	*str;
+	size_t s1_len;
+	size_t s2_len;
+	char *str;
 
 	if (!s1 || !s2)
 		return (NULL);

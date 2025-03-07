@@ -6,18 +6,16 @@
 /*   By: iboubkri <iboubkri@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/24 17:27:34 by iboubkri          #+#    #+#             */
-/*   Updated: 2025/02/10 17:50:39 by iboubkri         ###   ########.fr       */
+/*   Updated: 2025/03/06 15:11:58 by iboubkri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "get_next_line.h"
+#include "../libft.h"
 
 char	*ft_strjoin_helper(char *lbuf, char *rbuf)
 {
 	char	*new;
 
-	if (!lbuf)
-		return (ft_strdup(rbuf));
 	new = ft_strjoin(lbuf, rbuf);
 	return (free(lbuf), new);
 }

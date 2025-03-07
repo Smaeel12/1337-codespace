@@ -1,8 +1,5 @@
 {
 	"files.associations": {
-		"main.h": "c",
-		"get_next_line.h": "c",
-		"libft.h": "c",
-		"ft_printf.h": "c"
+		"stdlib.h": "c"
 	}
 }

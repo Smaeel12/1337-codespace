@@ -6,17 +6,17 @@
 /*   By: iboubkri <iboubkri@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/30 09:39:25 by iboubkri          #+#    #+#             */
-/*   Updated: 2025/01/30 09:39:55 by iboubkri         ###   ########.fr       */
+/*   Updated: 2025/03/06 15:11:24 by iboubkri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
+#include "../libft.h"
 
-long	ft_atol(const char *str)
+long ft_atol(const char *str)
 {
-	int		sign;
-	size_t	i;
-	size_t	res;
+	int sign;
+	size_t i;
+	size_t res;
 
 	i = 0;
 	res = 0;

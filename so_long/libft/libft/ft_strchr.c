@@ -6,16 +6,16 @@
 /*   By: iboubkri <iboubkri@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/28 21:24:21 by iboubkri          #+#    #+#             */
-/*   Updated: 2024/11/06 19:51:54 by iboubkri         ###   ########.fr       */
+/*   Updated: 2025/03/06 15:11:19 by iboubkri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
+#include "../libft.h"
 
-char	*ft_strchr(const char *s, int c)
+char *ft_strchr(const char *s, int c)
 {
-	size_t	i;
-	size_t	slen;
+	size_t i;
+	size_t slen;
 
 	i = 0;
 	slen = ft_strlen(s);

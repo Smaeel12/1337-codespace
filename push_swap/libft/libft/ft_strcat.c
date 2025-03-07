@@ -6,17 +6,17 @@
 /*   By: iboubkri <iboubkri@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/30 10:17:38 by iboubkri          #+#    #+#             */
-/*   Updated: 2025/01/31 14:49:48 by iboubkri         ###   ########.fr       */
+/*   Updated: 2025/03/06 15:11:24 by iboubkri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
+#include "../libft.h"
 
-char	*ft_strcat(char *dest, const char *src)
+char *ft_strcat(char *dest, const char *src)
 {
-	char	*new;
-	int		i;
-	int		j;
+	char *new;
+	int i;
+	int j;
 
 	i = 0;
 	j = 0;

@@ -6,11 +6,11 @@
 /*   By: iboubkri <iboubkri@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/10 17:06:38 by iboubkri          #+#    #+#             */
-/*   Updated: 2025/02/10 17:08:02 by iboubkri         ###   ########.fr       */
+/*   Updated: 2025/03/06 15:11:17 by iboubkri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
+#include "../libft.h"
 
 t_list *ft_get_node(t_list *lst, int idx)
 {

@@ -1,31 +1,19 @@
 NAME = pipex
-
 CFLAGS = -Wall -Wextra -Werror -g #-fsanitize=address -g3
-
-SRCS = main.c extract_cmds.c #close_program.c
+SRCS = pipex.c pipex_utils.c resource_cleanup.c
 OBJS = $(SRCS:.c=.o)
 
-LIBS = -Llibft -lft
+all: $(OBJS)
+	$(CC) $(CFLAGS) $^ -o $(NAME) -Llibft -lft
 
 %.o: %.c
-	$(CC) $(CFLAGS) -c $< -o $@
-
-$(NAME): $(OBJS)
 	make -C libft
-	$(CC) $(CFLAGS) $^ $(LIBS) -o $@
-
-all: $(NAME)
+	$(CC) $(CFLAGS) -c $^ -o $@
 
 clean:
-	make clean -C libft
 	rm -rf $(OBJS)
 
 fclean: clean
-	make fclean -C libft
 	rm -rf $(NAME)
 
 re: fclean all
-
-#	make re -C libft
-
-.PHONY: all clean fclean re

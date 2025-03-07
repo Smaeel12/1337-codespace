@@ -6,11 +6,11 @@
 /*   By: iboubkri <iboubkri@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/24 17:27:34 by iboubkri          #+#    #+#             */
-/*   Updated: 2025/02/06 13:05:27 by iboubkri         ###   ########.fr       */
+/*   Updated: 2025/03/06 15:11:58 by iboubkri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "get_next_line.h"
+#include "../libft.h"
 
 char	*ft_strjoin_helper(char *lbuf, char *rbuf)
 {

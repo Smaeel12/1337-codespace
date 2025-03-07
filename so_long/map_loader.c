@@ -6,70 +6,121 @@
 /*   By: iboubkri <iboubkri@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/11 10:24:01 by iboubkri          #+#    #+#             */
-/*   Updated: 2025/02/13 13:29:23 by iboubkri         ###   ########.fr       */
+/*   Updated: 2025/03/02 21:44:11 by iboubkri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "includes/main.h"
 
-static int	extract_map(t_mlx *mlx, int fd)
+static char	**list_to_array(t_list *lst, int size)
 {
+	char	**arr;
+	int		i;
+
+	i = 0;
+	arr = (char **)malloc((size + 1) * sizeof(char *));
+	while (i < size)
+	{
+		arr[i++] = ft_strdup(lst->content);
+		lst = lst->next;
+	}
+	arr[i] = NULL;
+	return (arr);
+}
+
+static t_list	*extract_map(t_map *map, int fd)
+{
+	t_list	*lst;
 	char	*line;
 
+	lst = NULL;
 	line = get_next_line(fd);
 	if (!line)
-		return (mlx->err = EMPTY_FILE, mlx->err);
-	mlx->map = (t_map){NULL, {ft_strlen(line) - 1, 0}, {0, 0}};
+		return (map->err = EMPTY_FILE, lst);
+	map->size.x = ft_strlen(line) - 1;
 	while (line)
 	{
-		if ((ft_strlen(line) - !(!ft_strchr(line,
-						'\n'))) != (size_t)mlx->map.msize.x)
-			mlx->err = NOT_RECT_MAP;
-		ft_lstadd_back(&mlx->map.map, ft_lstnew(ft_substr(line, 0,
-					mlx->map.msize.x)));
+		if ((int)(ft_strlen(line) - !(!ft_strchr(line, '\n'))) != map->size.x)
+			map->err = NOT_RECT_MAP;
+		ft_lstadd_back(&lst, ft_lstnew(ft_substr(line, 0, map->size.x)));
 		free(line);
 		line = get_next_line(fd);
-		mlx->map.msize.y += 1;
+		map->size.y += 1;
 	}
-	return (mlx->err);
+	if (map->size.y < 3)
+		return (map->err = NOT_RECT_MAP, lst);
+	return (lst);
 }
 
-static int	run_dfs_search(t_mlx *mlx, int fd)
+t_error	add_assets_positons(t_mlx *mlx)
 {
-	t_list	*origin;
-	t_stats	stats;
+	t_point	start;
+	int		clc_idx;
+	int		enm_idx;
 
-	extract_map(mlx, fd);
-	if (mlx->map.map == NULL || mlx->map.msize.y < MIN_MAP_HEIGHT || mlx->err)
-		return (ft_lstclear(&mlx->map.map, free), mlx->err = NOT_RECT_MAP);
-	origin = mlx->map.map;
-	mlx->map.map = ft_lstcopy(origin);
-	dfs_search(mlx, mlx->map.pp, 0);
-	if (mlx->err || mlx->stats.nclc < 1 || mlx->stats.next != 1
-		|| mlx->map.pp.x == 0)
-		return (ft_lstclear(&origin, free), ft_lstclear(&mlx->map.map, free),
-			mlx->err = MAP_INVALID);
-	stats = mlx->stats;
-	ft_lstclear(&mlx->map.map, free);
-	mlx->stats = (t_stats){0, 0};
-	mlx->map.map = ft_lstcopy(origin);
-	dfs_search(mlx, mlx->map.pp, '1');
-	if (mlx->stats.nclc != stats.nclc || mlx->stats.next != stats.next)
-		return (ft_lstclear(&origin, free), ft_lstclear(&mlx->map.map, free),
-			mlx->err = MAP_INVALID, mlx->err);
-	ft_lstclear(&mlx->map.map, free);
-	return (mlx->stats = stats, mlx->map.map = origin, mlx->err = MAP_OK);
+	start = (t_point){0};
+	clc_idx = 0;
+	enm_idx = 0;
+	mlx->map.stats.clc_poss = (t_point *)malloc(mlx->map.stats.nclc * sizeof(t_point));
+	mlx->map.stats.enemy_poss = (t_point *)malloc(mlx->map.stats.nenemy * sizeof(t_point));
+	while (mlx->map.arr[start.y] && !mlx->map.err)
+	{
+		start.x = 0;
+		while (mlx->map.arr[start.y][start.x] && !mlx->map.err)
+		{
+			if (mlx->map.arr[start.y][start.x] == 'C')
+			{
+				mlx->map.stats.clc_poss[clc_idx] = start;
+				clc_idx++;
+			}
+			if (mlx->map.arr[start.y][start.x] == 'X')
+			{
+				mlx->map.stats.enemy_poss[enm_idx] = start;
+				enm_idx++;
+			}
+			if (mlx->map.arr[start.y][start.x] == 'E')
+				mlx->map.stats.exit_pos = start;
+			start.x += 1;
+		}
+		start.y += 1;
+	}
+	return (mlx->map.err);
 }
 
-int	check_map(t_mlx *mlx, char *filename)
+static int	validate_map(t_mlx *mlx, t_list *lst)
 {
-	int	fd;
+	t_map	origin;
 
-	if (!ft_strnstr(filename, ".ber", ft_strlen(filename)))
-		return (mlx->err = INVALID_EXT, 1);
-	fd = open(filename, O_RDONLY);
-	if (fd < 0)
-		return (mlx->err = FILE_NOT_FOUND, 1);
-	run_dfs_search(mlx, fd);
-	return (mlx->err);
+	mlx->map.arr = list_to_array(lst, mlx->map.size.y);
+	scan_map(&mlx->map, (t_point){0});
+	if (mlx->map.err)
+		return mlx->map.err;
+	if (mlx->map.stats.pc.x == 0 || mlx->map.stats.pc.y == 0
+		|| mlx->map.stats.nclc < 1 || mlx->map.stats.next != 1)
+		return mlx->map.err = INV_STATS, 1;
+	origin = mlx->map;
+	mlx->map.arr = list_to_array(lst, mlx->map.size.y);
+	mlx->map.stats = (t_stats){mlx->map.stats.pc, NULL, NULL, {0}, 0, 0, 0, mlx->map.stats.nenemy};
+	search_path(&mlx->map, mlx->map.stats.pc, '1');
+	if (mlx->map.stats.nclc != origin.stats.nclc || mlx->map.stats.next != 1)
+		return (free_array(origin.arr), mlx->map.err = INV_REACH, 1);
+	free_array(mlx->map.arr);
+	mlx->map.arr = origin.arr;
+	add_assets_positons(mlx);
+	return (0);
+}
+
+int	load_map(t_mlx *mlx, int fd)
+{
+	t_list	*lst;
+
+	mlx->map = (t_map){NULL};
+	lst = extract_map(&mlx->map, fd);
+	if (mlx->map.err)
+		return (ft_lstclear(&lst, free), exit_program(mlx));
+	validate_map(mlx, lst);
+	ft_lstclear(&lst, free);
+	if (mlx->map.err)
+		return (exit_program(mlx));
+	return (mlx->map.err);
 }
