@@ -6,23 +6,26 @@
 /*   By: iboubkri <iboubkri@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/24 17:27:34 by iboubkri          #+#    #+#             */
-/*   Updated: 2025/03/06 15:11:58 by iboubkri         ###   ########.fr       */
+/*   Updated: 2025/03/07 00:42:18 by iboubkri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../libft.h"
 
-char	*ft_strjoin_helper(char *lbuf, char *rbuf)
+char *ft_strjoin_helper(char *lbuf, char *rbuf)
 {
-	char	*new;
+	char *new;
 
-	new = ft_strjoin(lbuf, rbuf);
+	if (!lbuf)
+		new = ft_strdup(rbuf);
+	else
+		new = ft_strjoin(lbuf, rbuf);
 	return (free(lbuf), new);
 }
 
-char	*return_line(char **lbuf, char *pos)
+char *return_line(char **lbuf, char *pos)
 {
-	char	*temp;
+	char *temp;
 
 	temp = ft_substr(*lbuf, 0, pos - *lbuf + 1);
 	if (!temp)
@@ -35,11 +38,11 @@ char	*return_line(char **lbuf, char *pos)
 	return (temp);
 }
 
-char	*get_next_line(int fd)
+char *get_next_line(int fd)
 {
-	static char	*lbuf;
-	char		*rbuf;
-	ssize_t		nb;
+	static char *lbuf;
+	char *rbuf;
+	ssize_t nb;
 
 	rbuf = (char *)malloc((size_t)BUFFER_SIZE + 1);
 	while (rbuf)

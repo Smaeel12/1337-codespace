@@ -4,6 +4,9 @@
 		"ft_printf.h": "c",
 		"libft.h": "c",
 		"errno.h": "c",
-		"get_next_line.h": "c"
+		"get_next_line.h": "c",
+		"pipex.h": "c",
+		"fcntl.h": "c",
+		"so_long.h": "c"
 	}
 }

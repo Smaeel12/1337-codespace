@@ -10,8 +10,8 @@ SRCS = main.c resource_cleanup.c map_loader.c animation_init.c map_validator.c\
 OBJS= $(SRCS:.c=.o)
 
 # libraries
-LIBS= -lmlx -lXext -lX11 -lm -Llibft -lft
-
+# LIBS= -lmlx -lXext -lX11 -lm -Llibft -lft
+LIBS= -Lmlx -lmlx -lXext -lX11 -lm -Llibft -lft
 # Targets
 NAME = so_long
 

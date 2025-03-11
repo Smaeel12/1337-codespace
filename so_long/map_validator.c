@@ -6,15 +6,15 @@
 /*   By: iboubkri <iboubkri@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/06 17:04:28 by iboubkri          #+#    #+#             */
-/*   Updated: 2025/03/02 17:56:01 by iboubkri         ###   ########.fr       */
+/*   Updated: 2025/03/07 22:06:25 by iboubkri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "includes/main.h"
 
-static t_point	*new_cordinates(t_point cords)
+static t_point *new_cordinates(t_point cords)
 {
-	t_point	*new;
+	t_point *new;
 
 	new = (t_point *)malloc(sizeof(t_point));
 	new->x = cords.x;
@@ -22,24 +22,22 @@ static t_point	*new_cordinates(t_point cords)
 	return (new);
 }
 
-static int	add_new_cords_to_queue(t_list **queue, t_point *point)
+static int add_new_cords_to_queue(t_list **queue, t_point *point)
 {
 	ft_lstadd_back(queue, ft_lstnew(new_cordinates((t_point){point->x + 1,
-				point->y})));
+															 point->y})));
 	ft_lstadd_back(queue, ft_lstnew(new_cordinates((t_point){point->x - 1,
-				point->y})));
-	ft_lstadd_back(queue, ft_lstnew(new_cordinates((t_point){point->x, point->y
-				+ 1})));
-	ft_lstadd_back(queue, ft_lstnew(new_cordinates((t_point){point->x, point->y
-				- 1})));
+															 point->y})));
+	ft_lstadd_back(queue, ft_lstnew(new_cordinates((t_point){point->x, point->y + 1})));
+	ft_lstadd_back(queue, ft_lstnew(new_cordinates((t_point){point->x, point->y - 1})));
 	return (0);
 }
 
-int	search_path(t_map *map, t_point start, char edge)
+int search_path(t_map *map, t_point start, char edge)
 {
-	t_list	*queue;
-	t_list	*head;
-	t_point	*point;
+	t_list *queue;
+	t_list *head;
+	t_point *point;
 
 	queue = NULL;
 	ft_lstadd_back(&queue, ft_lstnew(new_cordinates(start)));
@@ -48,12 +46,7 @@ int	search_path(t_map *map, t_point start, char edge)
 		head = queue;
 		point = head->content;
 		map->stats.next += map->arr[point->y][point->x] == 'E';
-		if (!(point->x < 0 || point->x >= map->size.x || point->y < 0
-				|| point->y >= map->size.y
-				|| map->arr[point->y][point->x] == edge
-				|| map->arr[point->y][point->x] == 'F'
-				|| map->arr[point->y][point->x] == 'E'
-				|| map->arr[point->y][point->x] == 'X'))
+		if (!(point->x < 0 || point->x >= map->size.x || point->y < 0 || point->y >= map->size.y || map->arr[point->y][point->x] == edge || map->arr[point->y][point->x] == 'F' || map->arr[point->y][point->x] == 'E' || map->arr[point->y][point->x] == 'X'))
 		{
 			map->stats.nclc += map->arr[point->y][point->x] == 'C';
 			map->arr[point->y][point->x] = 'F';
@@ -88,7 +81,7 @@ int get_stats(char c, t_stats *stats, t_point start, t_point size)
 	return err;
 }
 
-t_error	scan_map(t_map *map, t_point start)
+t_error scan_map(t_map *map, t_point start)
 {
 	while (map->arr[start.y] && !map->err)
 	{
