@@ -6,26 +6,27 @@
 /*   By: iboubkri <iboubkri@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/11 10:24:01 by iboubkri          #+#    #+#             */
-/*   Updated: 2025/03/02 21:44:11 by iboubkri         ###   ########.fr       */
+/*   Updated: 2025/03/14 13:52:08 by iboubkri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "includes/main.h"
 
-static char	**list_to_array(t_list *lst, int size)
+static char	**list_to_grid(t_list *lst)
 {
-	char	**arr;
+	char	**grid;
 	int		i;
 
+	grid = (char **)malloc((ft_lstsize(lst) + 1) * sizeof(char *));
 	i = 0;
-	arr = (char **)malloc((size + 1) * sizeof(char *));
-	while (i < size)
+	while (grid && lst)
 	{
-		arr[i++] = ft_strdup(lst->content);
+		grid[i] = ft_strdup(lst->content);
 		lst = lst->next;
+		i++;
 	}
-	arr[i] = NULL;
-	return (arr);
+	grid[i] = NULL;
+	return (grid);
 }
 
 static t_list	*extract_map(t_map *map, int fd)
@@ -52,61 +53,25 @@ static t_list	*extract_map(t_map *map, int fd)
 	return (lst);
 }
 
-t_error	add_assets_positons(t_mlx *mlx)
-{
-	t_point	start;
-	int		clc_idx;
-	int		enm_idx;
-
-	start = (t_point){0};
-	clc_idx = 0;
-	enm_idx = 0;
-	mlx->map.stats.clc_poss = (t_point *)malloc(mlx->map.stats.nclc * sizeof(t_point));
-	mlx->map.stats.enemy_poss = (t_point *)malloc(mlx->map.stats.nenemy * sizeof(t_point));
-	while (mlx->map.arr[start.y] && !mlx->map.err)
-	{
-		start.x = 0;
-		while (mlx->map.arr[start.y][start.x] && !mlx->map.err)
-		{
-			if (mlx->map.arr[start.y][start.x] == 'C')
-			{
-				mlx->map.stats.clc_poss[clc_idx] = start;
-				clc_idx++;
-			}
-			if (mlx->map.arr[start.y][start.x] == 'X')
-			{
-				mlx->map.stats.enemy_poss[enm_idx] = start;
-				enm_idx++;
-			}
-			if (mlx->map.arr[start.y][start.x] == 'E')
-				mlx->map.stats.exit_pos = start;
-			start.x += 1;
-		}
-		start.y += 1;
-	}
-	return (mlx->map.err);
-}
-
 static int	validate_map(t_mlx *mlx, t_list *lst)
 {
-	t_map	origin;
+	char	**temp;
+	t_point	path_stats;
 
-	mlx->map.arr = list_to_array(lst, mlx->map.size.y);
-	scan_map(&mlx->map, (t_point){0});
-	if (mlx->map.err)
-		return mlx->map.err;
-	if (mlx->map.stats.pc.x == 0 || mlx->map.stats.pc.y == 0
-		|| mlx->map.stats.nclc < 1 || mlx->map.stats.next != 1)
-		return mlx->map.err = INV_STATS, 1;
-	origin = mlx->map;
-	mlx->map.arr = list_to_array(lst, mlx->map.size.y);
-	mlx->map.stats = (t_stats){mlx->map.stats.pc, NULL, NULL, {0}, 0, 0, 0, mlx->map.stats.nenemy};
-	search_path(&mlx->map, mlx->map.stats.pc, '1');
-	if (mlx->map.stats.nclc != origin.stats.nclc || mlx->map.stats.next != 1)
-		return (free_array(origin.arr), mlx->map.err = INV_REACH, 1);
-	free_array(mlx->map.arr);
-	mlx->map.arr = origin.arr;
-	add_assets_positons(mlx);
+	path_stats = (t_point){0};
+	mlx->map.grid = list_to_grid(lst);
+	scan_map(&mlx->map.stats, mlx->map.grid, mlx->map.size, (t_point){0});
+	if (mlx->map.stats.err)
+		return (ft_lstclear(&lst, free), exit_program(mlx), 1);
+	if (!mlx->map.stats.player_pos.x || !mlx->map.stats.exit_pos.x
+		|| ft_lstsize(mlx->map.stats.clc_poss) < 1)
+		return (mlx->map.err = INV_STATS, 1);
+	temp = list_to_grid(lst);
+	search_path(temp, mlx->map.stats.player_pos, mlx->map.size, &path_stats);
+	if (path_stats.y != ft_lstsize(mlx->map.stats.clc_poss)
+		|| path_stats.x != 1)
+		return (free2(temp), mlx->map.err = INV_REACH, 1);
+	free2(temp);
 	return (0);
 }
 
@@ -114,7 +79,7 @@ int	load_map(t_mlx *mlx, int fd)
 {
 	t_list	*lst;
 
-	mlx->map = (t_map){NULL};
+	mlx->map = (t_map){NULL, {NULL, NULL, {0, 0}, {0, 0}, 0}, {0, 0}, 0};
 	lst = extract_map(&mlx->map, fd);
 	if (mlx->map.err)
 		return (ft_lstclear(&lst, free), exit_program(mlx));

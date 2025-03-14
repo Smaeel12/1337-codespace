@@ -1,30 +1,31 @@
 # Compiler and flags
 CC = cc
-CFLAGS = -Wall -Wextra -Werror -g #-fsanitize=address -g3
+CFLAGS = -Wall -Wextra -Werror -g -fsanitize=address -g3
 
 # Source files
 SRCS = main.c resource_cleanup.c map_loader.c animation_init.c map_validator.c\
-		map_renderer.c graphics_utils.c player_controls.c  animation_utils.c
+		map_renderer.c graphics_utils.c player_controls.c  animation_utils.c\
+		render_utils.c error_strings.c
 
 # Object files
-OBJS= $(SRCS:.c=.o)
+OBJS= $(addprefix objs/, $(SRCS:.c=.o))
 
 # libraries
-# LIBS= -lmlx -lXext -lX11 -lm -Llibft -lft
 LIBS= -Lmlx -lmlx -lXext -lX11 -lm -Llibft -lft
+
 # Targets
 NAME = so_long
 
 # Rules
-$(NAME): all
+all: $(NAME)
 
-all: $(OBJS)
+$(NAME): $(OBJS)
 	@make -C libft
 	$(CC) $(CFLAGS) $^ $(LIBS) -o $(NAME)
 
 clean:
 	@make -C libft clean
-	rm -rf $(OBJS)
+	rm -rf objs
 
 fclean: clean
 	@make -C libft fclean
@@ -33,7 +34,8 @@ fclean: clean
 re: fclean all
 
 # Object file rule
-%.o: %.c
+objs/%.o: %.c
+	@mkdir -p $(@D)
 	$(CC) $(CFLAGS) -c $< -o $@
 
 # Phony targets

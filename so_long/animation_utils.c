@@ -6,81 +6,81 @@
 /*   By: iboubkri <iboubkri@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/05 03:28:16 by iboubkri          #+#    #+#             */
-/*   Updated: 2025/03/05 03:39:32 by iboubkri         ###   ########.fr       */
+/*   Updated: 2025/03/14 14:08:48 by iboubkri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "includes/main.h"
 
-
-int animate_player(t_mlx *mlx)
+int	init_additional_assets(t_mlx *mlx)
 {
-	mlx->pc_anim.offset.x += mlx->pc_anim.direction.x * ACCELERATION;
-	mlx->pc_anim.offset.y += mlx->pc_anim.direction.y * ACCELERATION;
-	put_image(mlx, mlx->assets.space.frames[0], (mlx->map.stats.pc.x * SIZE), (mlx->map.stats.pc.y * SIZE));
-	if (mlx->pc_anim.offset.x || mlx->pc_anim.offset.y)
-		mlx->pc_anim.cur_frame = &mlx->pc_anim.walk[(2 & mlx->pc_anim.direction.x) | (3 & mlx->pc_anim.direction.y)];
-	if (mlx->pc_anim.cur_frame->cframe >= mlx->pc_anim.cur_frame->tframes)
-		mlx->pc_anim.cur_frame->cframe = 0;
-	put_image(mlx,
-		mlx->pc_anim.cur_frame->frames[mlx->pc_anim.cur_frame->cframe],
-		(mlx->map.stats.pc.x * SIZE + mlx->pc_anim.offset.x),
-		(mlx->map.stats.pc.y * SIZE + mlx->pc_anim.offset.y));
-	mlx->pc_anim.cur_frame->cframe += 1;
-	return 0;
+	mlx->assets.clc.tframes = 7;
+	mlx->assets.exit.tframes = 2;
+	mlx->assets.space.tframes = 1;
+	mlx->assets.wall.tframes = 1;
+	mlx->pc_anim.death.tframes = 17;
+	split_sprite_to_frames(mlx->ptr, &mlx->assets.exit, "assets/exit.xpm");
+	split_sprite_to_frames(mlx->ptr, &mlx->assets.space, "assets/space.xpm");
+	split_sprite_to_frames(mlx->ptr, &mlx->assets.clc, "assets/clc.xpm");
+	split_sprite_to_frames(mlx->ptr, &mlx->assets.wall, "assets/wall.xpm");
+	split_sprite_to_frames(mlx->ptr, &mlx->pc_anim.death, "assets/death.xpm");
+	if (!mlx->assets.exit.frames || !mlx->assets.space.frames
+		|| !mlx->assets.clc.frames || !mlx->assets.wall.frames
+		|| !mlx->pc_anim.death.frames)
+		return (mlx->err = LOAD_ASSETS, exit_program(mlx));
+	mlx->assets.enemy.tframes = 5;
+	mlx->assets.enemy.cframe = 0;
+	split_sprite_to_frames(mlx->ptr, &mlx->assets.enemy, "assets/enemy.xpm");
+	if (!mlx->assets.enemy.frames)
+		return (mlx->err = LOAD_ASSETS, exit_program(mlx));
+	return (0);
 }
 
-int animate_enemy(t_mlx *mlx)
+int	init_player_idle_assets(t_mlx *mlx)
 {
-	int i;
-
-	i = 0;
-	if (mlx->assets.enemy.cframe >= mlx->assets.enemy.tframes)
-		mlx->assets.enemy.cframe = 0;
-	while (i < mlx->map.stats.nenemy)
-	{
-		if (mlx->map.stats.enemy_poss[i].x && mlx->map.stats.enemy_poss[i].y)
-			put_image(mlx, mlx->assets.enemy.frames[mlx->assets.enemy.cframe],
-				mlx->map.stats.enemy_poss[i].x * SIZE, mlx->map.stats.enemy_poss[i].y
-				* SIZE);
-		i++;
-	}
-	mlx->assets.enemy.cframe += 1;
-	return 0;
+	mlx->pc_anim.idle[0].tframes = 2;
+	mlx->pc_anim.idle[1].tframes = 2;
+	mlx->pc_anim.idle[2].tframes = 2;
+	mlx->pc_anim.idle[3].tframes = 2;
+	split_sprite_to_frames(mlx->ptr, &mlx->pc_anim.idle[0],
+		"assets/idle/right_idle.xpm");
+	split_sprite_to_frames(mlx->ptr, &mlx->pc_anim.idle[2],
+		"assets/idle/left_idle.xpm");
+	split_sprite_to_frames(mlx->ptr, &mlx->pc_anim.idle[1],
+		"assets/idle/down_idle.xpm");
+	split_sprite_to_frames(mlx->ptr, &mlx->pc_anim.idle[3],
+		"assets/idle/up_idle.xpm");
+	if (!mlx->pc_anim.idle[0].frames || !mlx->pc_anim.idle[1].frames
+		|| !mlx->pc_anim.idle[2].frames || !mlx->pc_anim.idle[3].frames)
+		return (mlx->err = LOAD_ASSETS, exit_program(mlx));
+	mlx->pc_anim.cur_frame = &mlx->pc_anim.idle[1];
+	return (0);
 }
 
-int animate_clc(t_mlx *mlx)
+int	init_player_walk_assets(t_mlx *mlx)
 {
-	int i;
-
-	i = 0;
-	if (mlx->assets.clc.cframe >= 7)
-		mlx->assets.clc.cframe = 0;
-	while (i < mlx->map.stats.nclc)
-	{
-		if (mlx->map.stats.clc_poss[i].x && mlx->map.stats.clc_poss[i].y)
-			put_image(mlx, mlx->assets.clc.frames[mlx->assets.clc.cframe],
-				mlx->map.stats.clc_poss[i].x * SIZE, mlx->map.stats.clc_poss[i].y
-				* SIZE);
-		i++;
-	}
-	mlx->assets.clc.cframe += 1;
-	return 0;
-
+	mlx->pc_anim.walk[0].tframes = 4;
+	mlx->pc_anim.walk[1].tframes = 4;
+	mlx->pc_anim.walk[2].tframes = 4;
+	mlx->pc_anim.walk[3].tframes = 4;
+	split_sprite_to_frames(mlx->ptr, &mlx->pc_anim.walk[0],
+		"assets/walk/left_walk.xpm");
+	split_sprite_to_frames(mlx->ptr, &mlx->pc_anim.walk[2],
+		"assets/walk/right_walk.xpm");
+	split_sprite_to_frames(mlx->ptr, &mlx->pc_anim.walk[1],
+		"assets/walk/down_walk.xpm");
+	split_sprite_to_frames(mlx->ptr, &mlx->pc_anim.walk[3],
+		"assets/walk/up_walk.xpm");
+	if (!mlx->pc_anim.walk[0].frames || !mlx->pc_anim.walk[1].frames
+		|| !mlx->pc_anim.walk[2].frames || !mlx->pc_anim.walk[3].frames)
+		return (mlx->err = LOAD_ASSETS, exit_program(mlx));
+	return (0);
 }
 
-int reset_player_animation(t_mlx *mlx)
+int	init_assets(t_mlx *mlx)
 {
-	mlx->num_mov += 1;
-	ft_printf("number of movements: %i\n", mlx->num_mov);
-	mlx->pc_anim.cur_frame = &mlx->pc_anim.idle[
-		(2 & mlx->pc_anim.direction.x) | (3 & mlx->pc_anim.direction.y)];
-	mlx->map.stats.pc.x += mlx->pc_anim.direction.x;
-	mlx->map.stats.pc.y += mlx->pc_anim.direction.y;
-	mlx->pc_anim.direction.x = 0;
-	mlx->pc_anim.direction.y = 0;
-	mlx->pc_anim.offset.x = 0;
-	mlx->pc_anim.offset.y = 0;
-	return 0;
-
+	init_additional_assets(mlx);
+	init_player_idle_assets(mlx);
+	init_player_walk_assets(mlx);
+	return (0);
 }
