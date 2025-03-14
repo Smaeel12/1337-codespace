@@ -6,7 +6,7 @@
 /*   By: iboubkri <iboubkri@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/05 22:52:57 by iboubkri          #+#    #+#             */
-/*   Updated: 2025/03/12 08:13:02 by iboubkri         ###   ########.fr       */
+/*   Updated: 2025/03/13 00:45:42 by iboubkri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,11 +19,15 @@
 /* MACROS */
 #define READ 0
 #define WRITE 1
-#define COM_NOT_FOUND 127
-#define USAGE_ERR "Usage: ./pipex file1 cmd1 cmd2 file2\n"
-#define CMD_ERR ": command not found\n"
-#define PIPE_ERR "Pipe error\n"
-#define LIMITER_ERR "Missing here_doc Limiter\n"
+#define COMMAND_NOT_FOUND 127
+#define BASIC_USAGE_ERR "Usage:\n\t./pipex file1 cmd1 cmd2 file2\n"
+#define BONUS_USAGE_ERR \
+	"Usage:\n\t./pipex file1 cmd1 cmd2 file2\n\t./pipex here_doc \
+LIMITER cmd cmd1 file\n"
+#define CMD_ERR ": Command not found\n"
+#define FILE_ERR ": No such file or directory"
+#define PIPE_ERR "Error: Unable to create pipe\n"
+#define LIMITER_ERR "Error: Missing here_doc limiter\n"
 
 /* STRUCTS*/
 typedef struct s_cmd

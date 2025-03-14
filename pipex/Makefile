@@ -1,5 +1,6 @@
 NAME = pipex
-CFLAGS = -Wall -Wextra -Werror -g #-fsanitize=address -g3
+CC = cc
+CFLAGS = -Wall -Wextra -Werror
 SRCS = pipex_utils.c resource_handler.c
 OBJS = $(SRCS:.c=.o) pipex.o
 BOBJS = $(SRCS:.c=.o) pipex_bonus.o

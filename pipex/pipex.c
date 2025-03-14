@@ -6,7 +6,7 @@
 /*   By: iboubkri <iboubkri@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/05 22:52:33 by iboubkri          #+#    #+#             */
-/*   Updated: 2025/03/12 08:52:51 by iboubkri         ###   ########.fr       */
+/*   Updated: 2025/03/13 00:45:53 by iboubkri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ int	main(int ac, char **av, char **envp)
 	int		status;
 
 	if (ac != 5)
-		return (write(2, USAGE_ERR, ft_strlen(USAGE_ERR)), 1);
+		return (write(2, BASIC_USAGE_ERR, ft_strlen(BASIC_USAGE_ERR)), 1);
 	if (pipe(pipefds) == -1)
 		return (write(2, PIPE_ERR, ft_strlen(PIPE_ERR)), 1);
 	file = init_files(av[1], av[ac - 1]);
@@ -28,5 +28,5 @@ int	main(int ac, char **av, char **envp)
 	status = child_execute(find_cmd(paths, av[2]), file.in, pipefds[WRITE]);
 	status = child_execute(find_cmd(paths, av[3]), pipefds[READ], file.out);
 	clear_paths(paths);
-	return (status);
+	return (status | file.err);
 }

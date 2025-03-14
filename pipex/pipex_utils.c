@@ -6,7 +6,7 @@
 /*   By: iboubkri <iboubkri@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/03 03:15:21 by iboubkri          #+#    #+#             */
-/*   Updated: 2025/03/12 08:54:41 by iboubkri         ###   ########.fr       */
+/*   Updated: 2025/03/14 00:23:32 by iboubkri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,23 +33,27 @@ t_cmd	find_cmd(char **paths, char *cmd)
 	int		i;
 
 	i = 0;
+	cmd = ft_strtrim(cmd, " \t");
+	if (cmd[0] == '\0')
+		return (write(2, CMD_ERR, ft_strlen(CMD_ERR)), free(cmd),
+			(t_cmd){NULL});
 	data.args = ft_split(cmd, ' ');
-	if (!data.args[0])
-		return (data.cmd = ft_strdup(""), data);
-	if (data.args[0][0] == '/' || data.args[0][1] == '/')
-		return (data.cmd = ft_strdup(data.args[0]), data);
 	data.cmd = ft_strdup(data.args[0]);
+	if ((cmd[0] == '/' || cmd[1] == '/') && (access(data.cmd, X_OK) == -1))
+		return (write(2, data.args[0], ft_strlen(data.args[0])), write(2,
+				FILE_ERR, ft_strlen(FILE_ERR)), free(cmd), data);
+	if (cmd[0] == '/' || cmd[1] == '/')
+		return (free(cmd), data);
 	while (data.args[0] && paths && paths[i])
 	{
 		if (!access(data.cmd, X_OK))
-			return (data);
+			return (free(cmd), data);
 		free(data.cmd);
 		data.cmd = join_path_to_cmd(paths[i], data.args[0]);
 		i++;
 	}
-	free(data.cmd);
-	data.cmd = ft_strdup(data.args[0]);
-	return (data);
+	return (write(2, cmd, ft_strlen(cmd)), write(2, CMD_ERR, ft_strlen(CMD_ERR))
+		, clear_cmd(data), free(cmd), (t_cmd){NULL});
 }
 
 char	**extract_paths(char **envp)
@@ -92,12 +96,8 @@ int	child_execute(t_cmd cmd, int infile, int outfile)
 	int	status;
 	int	pid;
 
-	if (!cmd.cmd || access(cmd.cmd, X_OK))
-	{
-		write(2, cmd.cmd, ft_strlen(cmd.cmd));
-		write(2, CMD_ERR, ft_strlen(CMD_ERR));
-		return (clear_cmd(cmd), close(infile), close(outfile), COM_NOT_FOUND);
-	}
+	if (!cmd.cmd || access(cmd.cmd, X_OK) == -1)
+		return (close(infile), close(outfile), clear_cmd(cmd), 127);
 	pid = fork();
 	if (pid < -1)
 		return (perror("Fork"), 1);
@@ -105,8 +105,10 @@ int	child_execute(t_cmd cmd, int infile, int outfile)
 	{
 		dup2(infile, STDIN_FILENO);
 		dup2(outfile, STDOUT_FILENO);
+		close(infile);
+		close(outfile);
 		if (execve(cmd.cmd, cmd.args, NULL) == -1)
-			exit(EXIT_FAILURE);
+			return (perror(cmd.args[0]), clear_cmd(cmd), exit(EXIT_FAILURE), 1);
 	}
 	close(infile);
 	close(outfile);
