@@ -6,7 +6,7 @@
 /*   By: iboubkri <iboubkri@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/05 22:52:33 by iboubkri          #+#    #+#             */
-/*   Updated: 2025/03/13 00:45:53 by iboubkri         ###   ########.fr       */
+/*   Updated: 2025/03/15 20:36:49 by iboubkri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,6 +27,7 @@ int	main(int ac, char **av, char **envp)
 	paths = extract_paths(envp);
 	status = child_execute(find_cmd(paths, av[2]), file.in, pipefds[WRITE]);
 	status = child_execute(find_cmd(paths, av[3]), pipefds[READ], file.out);
+	wait(&status);
 	clear_paths(paths);
 	return (status | file.err);
 }

@@ -6,7 +6,7 @@
 /*   By: iboubkri <iboubkri@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/03 03:15:21 by iboubkri          #+#    #+#             */
-/*   Updated: 2025/03/14 00:23:32 by iboubkri         ###   ########.fr       */
+/*   Updated: 2025/03/15 20:37:06 by iboubkri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,7 @@ t_cmd	find_cmd(char **paths, char *cmd)
 	cmd = ft_strtrim(cmd, " \t");
 	if (cmd[0] == '\0')
 		return (write(2, CMD_ERR, ft_strlen(CMD_ERR)), free(cmd),
-			(t_cmd){NULL});
+			(t_cmd){NULL, NULL});
 	data.args = ft_split(cmd, ' ');
 	data.cmd = ft_strdup(data.args[0]);
 	if ((cmd[0] == '/' || cmd[1] == '/') && (access(data.cmd, X_OK) == -1))
@@ -53,7 +53,7 @@ t_cmd	find_cmd(char **paths, char *cmd)
 		i++;
 	}
 	return (write(2, cmd, ft_strlen(cmd)), write(2, CMD_ERR, ft_strlen(CMD_ERR))
-		, clear_cmd(data), free(cmd), (t_cmd){NULL});
+		, clear_cmd(data), free(cmd), (t_cmd){NULL, NULL});
 }
 
 char	**extract_paths(char **envp)
@@ -93,7 +93,7 @@ t_file	init_files(char *infile, char *outfile)
 
 int	child_execute(t_cmd cmd, int infile, int outfile)
 {
-	int	status;
+	// int	status;
 	int	pid;
 
 	if (!cmd.cmd || access(cmd.cmd, X_OK) == -1)
@@ -112,7 +112,8 @@ int	child_execute(t_cmd cmd, int infile, int outfile)
 	}
 	close(infile);
 	close(outfile);
-	wait(&status);
+	// wait(&status);
 	clear_cmd(cmd);
-	return (WEXITSTATUS(status));
+	// return (WEXITSTATUS(status));
+	return 0;
 }

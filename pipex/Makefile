@@ -1,11 +1,13 @@
 NAME = pipex
 CC = cc
-CFLAGS = -Wall -Wextra -Werror
+CFLAGS = -Wall -Wextra -Werror -g
 SRCS = pipex_utils.c resource_handler.c
-OBJS = $(SRCS:.c=.o) pipex.o
-BOBJS = $(SRCS:.c=.o) pipex_bonus.o
+OBJS = $(addprefix objs/, $(SRCS:.c=.o) pipex.o)
+BOBJS = $(addprefix objs/, $(SRCS:.c=.o) pipex_bonus.o)
 
-all: $(OBJS)
+all: $(NAME)
+
+$(NAME): $(OBJS)
 	make -C libft
 	$(CC) $(CFLAGS) $^ -o $(NAME) -Llibft -lft
 
@@ -13,15 +15,18 @@ bonus: $(BOBJS)
 	make -C libft
 	$(CC) $(CFLAGS) $^ -o $(NAME) -Llibft -lft
 
-%.o: %.c
+objs/%.o: %.c
+	@mkdir -p objs
 	$(CC) $(CFLAGS) -c $^ -o $@
 
 clean:
 	make clean -C libft
-	rm -rf $(SRCS:.c=.o) pipex.o pipex_bonus.o
+	rm -rf objs/
 
 fclean: clean
 	make fclean -C libft
-	rm -rf $(NAME)
+	rm -rf objs/
 
 re: fclean all
+
+.PHONY: all clean fclean re

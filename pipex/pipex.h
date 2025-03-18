@@ -6,7 +6,7 @@
 /*   By: iboubkri <iboubkri@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/05 22:52:57 by iboubkri          #+#    #+#             */
-/*   Updated: 2025/03/13 00:45:42 by iboubkri         ###   ########.fr       */
+/*   Updated: 2025/03/14 15:27:35 by iboubkri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@
 	"Usage:\n\t./pipex file1 cmd1 cmd2 file2\n\t./pipex here_doc \
 LIMITER cmd cmd1 file\n"
 #define CMD_ERR ": Command not found\n"
-#define FILE_ERR ": No such file or directory"
+#define FILE_ERR ": No such file or directory\n"
 #define PIPE_ERR "Error: Unable to create pipe\n"
 #define LIMITER_ERR "Error: Missing here_doc limiter\n"
 
