@@ -1,12 +1,28 @@
 {
+	"workbench.colorTheme": "Ayu Dark Bordered",
+	"editor.rulers": [
+		80,
+	],
+	"editor.tabSize": 4,
+	"editor.insertSpaces": false,
+	"editor.detectIndentation": false,
+	"editor.renderWhitespace": "all",
+	"files.trimTrailingWhitespace": true,
+	"files.insertFinalNewline": true,
+	"editor.formatOnSave": true,
+	"editor.wrappingIndent": "none",
+	"editor.autoIndent": "none",
 	"files.associations": {
 		"main.h": "c",
-		"ft_printf.h": "c",
+		"cstdint": "cpp",
+		"atomic": "cpp",
+		"random": "cpp",
+		"*.tcc": "cpp",
 		"libft.h": "c",
-		"errno.h": "c",
-		"get_next_line.h": "c",
-		"pipex.h": "c",
-		"fcntl.h": "c",
-		"so_long.h": "c"
+		"array": "c",
+		"string": "c",
+		"string_view": "c",
+		"unistd.h": "c",
+		"stdlib.h": "c"
 	}
 }
