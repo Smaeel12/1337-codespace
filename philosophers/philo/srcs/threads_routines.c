@@ -1,22 +1,22 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   routines.c                                         :+:      :+:    :+:   */
+/*   threads_routines.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: iboubkri <iboubkri@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/31 12:19:28 by iboubkri          #+#    #+#             */
-/*   Updated: 2025/04/01 16:17:23 by iboubkri         ###   ########.fr       */
+/*   Updated: 2025/04/02 14:53:59 by iboubkri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/main.h"
 
-int display_message(char *action, int id, suseconds_t start_time, int sim_stop)
+static int display_message(char *action, int id, suseconds_t start_time, int sim_stop)
 {
 	if (sim_stop)
 		return (1);
-	printf("%li %i %s\n", (get_current_time() - start_time), id, action);
+	printf("%i %i %s\n", (get_current_time() - start_time), id, action);
 	return (0);
 }
 

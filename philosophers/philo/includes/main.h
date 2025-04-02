@@ -6,7 +6,7 @@
 /*   By: iboubkri <iboubkri@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/30 12:57:45 by iboubkri          #+#    #+#             */
-/*   Updated: 2025/04/01 10:23:43 by iboubkri         ###   ########.fr       */
+/*   Updated: 2025/04/02 14:53:42 by iboubkri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,6 +32,8 @@ unsigned integer\n"
 #define ERR_FORKS_INIT "Error:\n\tFailed to initialize mutexes\n"
 #define ERR_THREAD_JOIN "Error:\n\tFailed to join threads\n"
 
+typedef pthread_mutex_t t_fork;
+
 enum
 {
 	NB_PHILOS,
@@ -44,8 +46,8 @@ enum
 typedef struct s_philosophers
 {
 	pthread_t thread;
-	pthread_mutex_t *left_fork;
-	pthread_mutex_t *right_fork;
+	t_fork *left_fork;
+	t_fork *right_fork;
 	bool *sim_stop;
 	suseconds_t eat_time;
 	suseconds_t sleep_time;
@@ -59,23 +61,21 @@ typedef struct s_monitor
 {
 	pthread_t thread;
 	t_philosophers *philos;
-	pthread_mutex_t *forks;
+	t_fork *forks;
 	int *data;
 	bool sim_stop;
 } t_monitor;
 
 int ft_strlen(char *str);
-int to_number(char *input);
 int *parse_input(char **av);
 suseconds_t get_current_time(void);
 
-int destroy_forks(pthread_mutex_t *forks, int size);
+t_fork *create_forks(int size);
+t_philosophers *create_philosophers(t_fork *forks, int *data, bool *sim_stop);
+int destroy_forks(t_fork *forks, int size);
 int join_philosophers(t_philosophers *philos, int size);
 
 void *monitor_routine(t_monitor *monitor);
 void *philos_routine(t_philosophers *philo);
-
-pthread_mutex_t *create_forks(int size);
-t_philosophers *create_philosophers(pthread_mutex_t *forks, int *data, bool *sim_stop);
 
 #endif

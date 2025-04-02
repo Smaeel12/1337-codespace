@@ -1,24 +1,24 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   init.c                                             :+:      :+:    :+:   */
+/*   simulation_manager.c                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: iboubkri <iboubkri@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/31 12:17:24 by iboubkri          #+#    #+#             */
-/*   Updated: 2025/04/01 15:12:08 by iboubkri         ###   ########.fr       */
+/*   Updated: 2025/04/02 14:44:07 by iboubkri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/main.h"
 
-pthread_mutex_t *create_forks(int size)
+t_fork *create_forks(int size)
 {
-	pthread_mutex_t *forks;
+	t_fork *forks;
 	int i;
 
 	i = 0;
-	forks = (pthread_mutex_t *)malloc(size * sizeof(pthread_mutex_t));
+	forks = (t_fork *)malloc(size * sizeof(t_fork));
 	while (i < size)
 	{
 		if (pthread_mutex_init(&forks[i], NULL))
@@ -28,7 +28,7 @@ pthread_mutex_t *create_forks(int size)
 	return (forks);
 }
 
-t_philosophers *create_philosophers(pthread_mutex_t *forks, int *data, bool *sim_stop)
+t_philosophers *create_philosophers(t_fork *forks, int *data, bool *sim_stop)
 {
 	t_philosophers *philos;
 	int i;
@@ -52,4 +52,28 @@ t_philosophers *create_philosophers(pthread_mutex_t *forks, int *data, bool *sim
 		i++;
 	}
 	return (philos);
+}
+
+int destroy_forks(t_fork *forks, int size)
+{
+	int i;
+
+	i = 0;
+	while (i < size)
+		pthread_mutex_destroy(&forks[i++]);
+	return (0);
+}
+
+int join_philosophers(t_philosophers *philos, int size)
+{
+	int i;
+
+	i = 0;
+	while (i < size)
+	{
+		if (pthread_join(philos[i].thread, NULL))
+			write(2, ERR_FORKS_INIT, ft_strlen(ERR_FORKS_INIT));
+		i++;
+	}
+	return (0);
 }

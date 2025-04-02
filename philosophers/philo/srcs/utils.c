@@ -6,23 +6,13 @@
 /*   By: iboubkri <iboubkri@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/30 14:50:32 by iboubkri          #+#    #+#             */
-/*   Updated: 2025/04/01 12:28:56 by iboubkri         ###   ########.fr       */
+/*   Updated: 2025/04/02 14:51:48 by iboubkri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/main.h"
 
-int ft_strlen(char *str)
-{
-	int len;
-
-	len = 0;
-	while (str[len++])
-		;
-	return (len);
-}
-
-int to_number(char *input)
+static int to_number(char *input)
 {
 	unsigned int res;
 	int sign;
@@ -67,4 +57,14 @@ suseconds_t get_current_time(void)
 
 	gettimeofday(&time, NULL);
 	return (time.tv_sec * 1000 + time.tv_usec / 1000);
+}
+
+int ft_strlen(char *str)
+{
+	int len;
+
+	len = 0;
+	while (str[len++])
+		;
+	return (len);
 }
