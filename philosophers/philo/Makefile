@@ -1,25 +1,25 @@
 NAME = philo
 CC = cc
-CFLAGS = -Wall -Wextra -Werror -g
-SRCS = $(wildcard srcs/*)
-OBJS = $(addprefix objs/, $(SRCS:srcs/%.c=%.o))
-HEADER = includes/main.h
+CFLAGS = -Wall -Wextra -Werror -pthread -g3 -fsanitize=address
+SRCS = main.c utils.c philosopher.c
+OBJS = $(addprefix objs/, $(SRCS:.c=.o))
+HEADER = main.h
 
 all: $(NAME)
 
 $(NAME): $(OBJS)
-	$(CC) $(CFLAGS) $^ -o $@ -pthread
+	$(CC) $(CFLAGS) $(OBJS) -o $(NAME)
 
-objs/%.o: srcs/%.c $(HEADER)
+objs/%.o: %.c $(HEADER)
 	@mkdir -p objs/
 	$(CC) $(CFLAGS) -c $< -o $@
 
 clean:
-	rm -rf objs
+	rm -rf objs/
 
 fclean: clean
 	rm -rf $(NAME)
 
 re: fclean all
 
-.PHONY: clean fclean re
+.PHONY: all clean fclean re

@@ -1,0 +1,33 @@
+# Philosophers
+
+This project is designed to explore the concepts of concurrency, multithreading, and synchronization in programming. The goal is to implement the classic "Dining Philosophers" problem using C. The project includes two versions:
+- **Mandatory**: Implemented using threads and mutexes.
+- **Bonus**: Implemented using processes and semaphores.
+
+## Table of Contents
+1. [Introduction](#introduction)
+2. [Features](#features)
+3. [How to Use](#how-to-use)
+4. [Requirements](#requirements)
+5. [Credits](#credits)
+
+## Introduction
+The "Dining Philosophers" problem is a classic synchronization problem in computer science.
+
+## Features
+- Implementation of the Dining Philosophers problem.
+- **Mandatory**: Uses threads and mutexes for synchronization.
+- **Bonus**: Uses processes and semaphores for synchronization.
+- Handles edge cases like deadlocks and starvation.
+
+## How to Use
+1. Clone the repository.
+2. Navigate to the desired version (`mandatory` or `bonus`).
+3. Compile the program using the provided Makefile.
+4. Run the executable with the required arguments.
+
+## Requirements
+- A Unix-based system.
+- GCC or Clang compiler.
+- Make utility.
+- For the bonus version: Support for POSIX semaphores.
