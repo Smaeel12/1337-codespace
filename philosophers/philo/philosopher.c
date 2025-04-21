@@ -6,7 +6,7 @@
 /*   By: iboubkri <iboubkri@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/11 01:22:30 by iboubkri          #+#    #+#             */
-/*   Updated: 2025/04/11 14:52:28 by iboubkri         ###   ########.fr       */
+/*   Updated: 2025/04/21 17:21:56 by iboubkri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,96 +14,93 @@
 
 static int	display_message(t_philo *philo, char *action)
 {
-	bool	stop_sim;
+	bool	is_dead;
 
-	pthread_mutex_lock(philo->read_lock);
-	stop_sim = philo->is_dead;
-	pthread_mutex_unlock(philo->read_lock);
-	if (stop_sim == false)
-	{
-		pthread_mutex_lock(philo->write_lock);
-		printf("%li %li %s\n", (getcurrenttime() - philo->start_time),
+	pthread_mutex_lock(&philo->data->read_lock);
+	pthread_mutex_lock(&philo->data->write_lock);
+	is_dead = philo->data->death_flag;
+	if (is_dead == false)
+		printf("%li %li %s\n", (getcurrenttime() - philo->data->start_time),
 			philo->id, action);
-		pthread_mutex_unlock(philo->write_lock);
-	}
-	return (!stop_sim);
+	pthread_mutex_unlock(&philo->data->write_lock);
+	pthread_mutex_unlock(&philo->data->read_lock);
+	return (!is_dead);
 }
 
 static void	*thread_routine(t_philo *philo)
 {
-	while (display_message(philo, "is thinking"))
+	while (display_message(philo, "is thinking") && philo->data->nb_philos > 1)
 	{
-		usleep((philo->id & 1));
+		ft_msleep(philo->data, philo->think_time);
 		pthread_mutex_lock(philo->left_fork);
-		display_message(philo, "has taken a fork");
-		if (philo->left_fork == philo->right_fork)
-			return (NULL);
 		pthread_mutex_lock(philo->right_fork);
-		display_message(philo, "has taken a fork");
 		{
-			pthread_mutex_lock(philo->read_lock);
-			philo->nb_meals += 1;
+			display_message(philo, "has taken a fork");
+			display_message(philo, "has taken a fork");
+			pthread_mutex_lock(&philo->data->read_lock);
 			philo->last_meal = getcurrenttime();
-			pthread_mutex_unlock(philo->read_lock);
+			philo->nb_meals += 1;
+			pthread_mutex_unlock(&philo->data->read_lock);
 			display_message(philo, "is eating");
-			usleep(philo->data[EAT_TIME] * 1000);
+			ft_msleep(philo->data, philo->data->eat_time);
 		}
 		pthread_mutex_unlock(philo->left_fork);
 		pthread_mutex_unlock(philo->right_fork);
 		display_message(philo, "is sleeping");
-		usleep(philo->data[SLEEP_TIME] * 1000);
+		ft_msleep(philo->data, philo->data->sleep_time);
+		philo->think_time = (philo->data->die_time - (getcurrenttime()
+					- philo->last_meal)) * 0.2;
 	}
 	return (NULL);
 }
 
-int	monitoring(t_philo *philos, t_data *data)
+int	monitoring(t_philo *philos, t_data *data, size_t done, size_t id)
 {
-	size_t	philos_done;
-	size_t	i;
-
-	while (1)
+	while (!ft_msleep(data, 1))
 	{
-		i = 0;
-		philos_done = 0;
-		while (i < data[NB_PHILOS])
+		id = 0;
+		done = 0;
+		while (id < data->nb_philos && !pthread_mutex_lock(&data->read_lock))
 		{
-			if (getcurrenttime()
-				- philos[i].last_meal >= (suseconds_t)data[TIME_TO_DIE])
+			done += (philos[id].nb_meals >= data->total_eat) && data->total_eat;
+			data->death_flag = (getcurrenttime() - philos[id].last_meal
+					>= data->die_time) | ((done >= data->nb_philos) << 1);
+			if (data->death_flag)
 			{
-				display_message(&philos[i], "died");
-				return (0);
+				if (data->death_flag == 1 << 1)
+					return (pthread_mutex_unlock(&data->read_lock), 0);
+				pthread_mutex_lock(&data->write_lock);
+				printf("%li %li died\n", (getcurrenttime() - data->start_time),
+					philos[id].id);
+				pthread_mutex_unlock(&data->write_lock);
+				return (pthread_mutex_unlock(&data->read_lock), 0);
 			}
-			pthread_mutex_lock(philos->read_lock);
-			philos_done += philos[i].nb_meals >= data[TOTAL_EAT];
-			pthread_mutex_unlock(philos->read_lock);
-			i++;
+			pthread_mutex_unlock(&data->read_lock);
+			id++;
 		}
-		if (data[TOTAL_EAT] && philos_done >= data[NB_PHILOS])
-			return (0);
 	}
 	return (0);
 }
 
-t_philo	*create_philosophers(t_fork *forks, t_data *data, t_lock *locks)
+t_philo	*create_philosophers(t_fork *forks, t_data *data)
 {
-	t_philo		*philos;
-	suseconds_t	start_time;
-	size_t		i;
+	t_philo	*philos;
+	size_t	i;
 
 	i = 0;
-	start_time = getcurrenttime();
-	philos = (t_philo *)malloc(data[NB_PHILOS] * sizeof(t_philo));
-	while (philos && i < data[NB_PHILOS])
+	data->death_flag = 0;
+	data->start_time = getcurrenttime();
+	philos = (t_philo *)malloc(data->nb_philos * sizeof(t_philo));
+	if (!philos)
+		return (write(2, MALLOC_ERR, ft_strlen(MALLOC_ERR)), NULL);
+	while (i < data->nb_philos)
 	{
 		philos[i].id = i + 1;
-		philos[i].left_fork = &forks[(!(i & 1) + i) % data[NB_PHILOS]];
-		philos[i].right_fork = &forks[((i & 1) + i) % data[NB_PHILOS]];
+		philos[i].left_fork = &forks[(!(i & 1) + i) % data->nb_philos];
+		philos[i].right_fork = &forks[((i & 1) + i) % data->nb_philos];
 		philos[i].last_meal = getcurrenttime();
+		philos[i].think_time = 0;
 		philos[i].nb_meals = 0;
-		philos[i].read_lock = &locks[READ];
-		philos[i].write_lock = &locks[WRITE];
-		philos[i].start_time = start_time;
-		philos[i].is_dead = false;
 		philos[i].data = data;
 		if (pthread_create(&philos[i].thread, NULL,
 				(void *(*)(void *))thread_routine, &philos[i]))
@@ -113,18 +110,20 @@ t_philo	*create_philosophers(t_fork *forks, t_data *data, t_lock *locks)
 	return (philos);
 }
 
-t_fork	*create_forks(int size)
+t_fork	*create_forks(size_t size)
 {
 	t_fork	*forks;
-	int		i;
+	size_t	i;
 
 	i = 0;
 	forks = (t_fork *)malloc(size * sizeof(t_fork));
 	while (i < size)
 	{
 		if (pthread_mutex_init(&forks[i], NULL))
-			return (free(forks), write(2, "ERR_FORKS_INIT",
-					ft_strlen("ERR_FORKS_INIT")), NULL);
+		{
+			write(2, MUTEX_INIT_FAILED, ft_strlen(MUTEX_INIT_FAILED));
+			return (free(forks), NULL);
+		}
 		i++;
 	}
 	return (forks);

@@ -1,7 +1,7 @@
 NAME = philo_bonus
 CC = cc
-CFLAGS = -Wall -Wextra -Werror -pthread -g3 #-fsanitize=address
-SRCS = main.c utils.c # philosopher.c
+CFLAGS = -Wall -Wextra -Werror -g3 #-fsanitize=address
+SRCS = main.c utils.c philosopher.c
 OBJS = $(addprefix objs/, $(SRCS:.c=.o))
 HEADER = main.h
 

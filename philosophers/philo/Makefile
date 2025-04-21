@@ -1,6 +1,6 @@
 NAME = philo
 CC = cc
-CFLAGS = -Wall -Wextra -Werror -pthread -g3 -fsanitize=address
+CFLAGS = -Wall -Wextra -Werror -pthread -g3 #-fsanitize=thread
 SRCS = main.c utils.c philosopher.c
 OBJS = $(addprefix objs/, $(SRCS:.c=.o))
 HEADER = main.h
