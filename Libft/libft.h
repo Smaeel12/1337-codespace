@@ -6,7 +6,7 @@
 /*   By: iboubkri <iboubkri@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/06 15:06:23 by iboubkri          #+#    #+#             */
-/*   Updated: 2025/03/06 15:09:04 by iboubkri         ###   ########.fr       */
+/*   Updated: 2025/11/27 12:34:27 by iboubkri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,10 +84,9 @@ t_list				*ft_get_node(t_list *lst, int idx);
 t_list				*ft_lstcopy(t_list *lst);
 
 /* PRINTF */
-int	ft_printf(const char *format, ...);
+int					ft_printf(const char *format, ...);
 
 /* GET_NEXT_LINE */
-char	*get_next_line(int fd);
+char				*get_next_line(int fd);
 
 #endif
-

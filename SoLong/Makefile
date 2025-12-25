@@ -1,6 +1,6 @@
 # Compiler and flags
 CC = cc
-CFLAGS = -Wall -Wextra -Werror
+CFLAGS = -Wall -Wextra -Werror -o3
 
 # Source files
 SRCS = main.c resource_cleanup.c map_loader.c animation_init.c map_validator.c\
