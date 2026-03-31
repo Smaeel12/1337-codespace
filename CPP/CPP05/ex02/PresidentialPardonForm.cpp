@@ -1,10 +1,10 @@
 #include "PresidentialPardonForm.hpp"
 
 PresidentialPardonForm::PresidentialPardonForm(std::string target)
-    : AForm(target, 25, 5) {}
+    : target_(target), AForm("PresidentialPardonForm", 25, 5) {}
 
 int PresidentialPardonForm::beExecuted() const {
-  std::cout << this->getName() << " has pardoned by Zaphod Beeblebrox\n";
+  std::cout << this->target_ << " has pardoned by Zaphod Beeblebrox\n";
   return 0;
 }
 

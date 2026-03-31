@@ -1,7 +1,7 @@
 #include "ShrubberyCreationForm.hpp"
 
 ShrubberyCreationForm::ShrubberyCreationForm(std::string target)
-    : AForm(target, 145, 137) {}
+    : target_(target), AForm("ShrubberyCreationForm", 145, 137) {}
 
 int ShrubberyCreationForm::beExecuted() const {
   std::ofstream file;

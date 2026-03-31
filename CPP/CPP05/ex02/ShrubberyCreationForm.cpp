@@ -1,12 +1,12 @@
 #include "ShrubberyCreationForm.hpp"
 
 ShrubberyCreationForm::ShrubberyCreationForm(std::string target)
-    : AForm(target, 145, 137) {}
+    : target_(target), AForm("ShrubberyCreationForm", 145, 137) {}
 
 int ShrubberyCreationForm::beExecuted() const {
   std::ofstream file;
   file.exceptions(std::fstream::failbit | std::fstream::badbit);
-  file.open((getName() + "_shrubbery").c_str(),
+  file.open((this->target_ + "_shrubbery").c_str(),
             std::fstream::out | std::fstream::trunc);
   file << "\
     oxoxoo    ooxoo\n\
