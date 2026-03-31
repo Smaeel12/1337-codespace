@@ -31,13 +31,13 @@ Form& Form::operator=(const Form& other) {
   return *this;
 }
 
-const std::string Form::getName() const throw() { return this->name_; }
+const std::string& Form::getName() const { return this->name_; }
 
-int Form::getExecutionGrade() const throw() { return this->executionGrade_; }
+int Form::getExecutionGrade() const { return this->executionGrade_; }
 
-int Form::getSignGrade() const throw() { return this->signGrade_; }
+int Form::getSignGrade() const { return this->signGrade_; }
 
-bool Form::getIsSigned() const throw() { return this->isSigned_; }
+bool Form::getIsSigned() const { return this->isSigned_; }
 
 int Form::beSigned(const Bureaucrat& signer) {
   if (this->signGrade_ < signer.getGrade()) throw Form::GradeTooLowException();

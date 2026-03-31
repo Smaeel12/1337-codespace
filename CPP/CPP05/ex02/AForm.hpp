@@ -24,10 +24,10 @@ class AForm {
     const char* what() const throw();
   };
 
-  const std::string getName() const throw();
-  int getExecutionGrade() const throw();
-  int getSignGrade() const throw();
-  bool getIsSigned() const throw();
+  const std::string getName() const;
+  int getExecutionGrade() const;
+  int getSignGrade() const;
+  bool getIsSigned() const;
 
   int beSigned(const Bureaucrat& signer);
   virtual int beExecuted() const = 0;
@@ -37,7 +37,7 @@ class AForm {
   AForm(std::string name, int signGrade, int executionGrade);
   AForm(const AForm& other);
   AForm& operator=(const AForm& other);
-  ~AForm();
+  virtual ~AForm();
 };
 
 std::ostream& operator<<(std::ostream& os, const AForm& form);

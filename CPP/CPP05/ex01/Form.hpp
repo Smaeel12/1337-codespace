@@ -21,10 +21,10 @@ class Form {
     const char* what() const throw();
   };
 
-  const std::string getName() const throw();
-  int getExecutionGrade() const throw();
-  int getSignGrade() const throw();
-  bool getIsSigned() const throw();
+  const std::string& getName() const;
+  int getExecutionGrade() const;
+  int getSignGrade() const;
+  bool getIsSigned() const;
 
   int beSigned(const Bureaucrat& signer);
 

@@ -19,8 +19,8 @@ class Bureaucrat {
     const char* what() const throw();
   };
 
-  const std::string getName() const throw();
-  int getGrade() const throw();
+  const std::string& getName() const;
+  int getGrade() const;
 
   int incrementGrade();
   int decrementGrade();
@@ -30,7 +30,7 @@ class Bureaucrat {
   Bureaucrat(std::string name, int grade);
   Bureaucrat(const Bureaucrat& other);
   Bureaucrat& operator=(const Bureaucrat& other);
-  ~Bureaucrat() throw();
+  ~Bureaucrat();
 };
 
 std::ostream& operator<<(std::ostream& os, const Bureaucrat& obj);

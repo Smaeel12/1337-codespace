@@ -23,8 +23,8 @@ Bureaucrat& Bureaucrat::operator=(const Bureaucrat& other) {
   return *this;
 }
 
-const std::string Bureaucrat::getName() const throw() { return this->name_; }
-int Bureaucrat::getGrade() const throw() { return this->grade_; }
+const std::string& Bureaucrat::getName() const { return this->name_; }
+int Bureaucrat::getGrade() const { return this->grade_; }
 
 int Bureaucrat::incrementGrade() {
   this->grade_--;
@@ -38,7 +38,7 @@ int Bureaucrat::decrementGrade() {
   return 0;
 }
 
-Bureaucrat::~Bureaucrat() throw() {}
+Bureaucrat::~Bureaucrat() {}
 
 std::ostream& operator<<(std::ostream& os, const Bureaucrat& obj) {
   os << obj.getName() << ", bureaucrat grade " << obj.getGrade() << ".\n";

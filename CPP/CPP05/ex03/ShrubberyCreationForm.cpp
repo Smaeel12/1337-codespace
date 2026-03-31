@@ -3,20 +3,10 @@
 ShrubberyCreationForm::ShrubberyCreationForm(std::string target)
     : AForm(target, 145, 137) {}
 
-ShrubberyCreationForm::ShrubberyCreationForm(const ShrubberyCreationForm& other)
-    : AForm(other) {}
-
-ShrubberyCreationForm& ShrubberyCreationForm::operator=(
-    const ShrubberyCreationForm& other) {
-  if (this == &other) return *this;
-  *this = other;
-  return *this;
-}
-
 int ShrubberyCreationForm::beExecuted() const {
   std::ofstream file;
   file.exceptions(std::fstream::failbit | std::fstream::badbit);
-  file.open((getName() + "_shrubbery").c_str(),
+  file.open((this->target_ + "_shrubbery").c_str(),
             std::fstream::out | std::fstream::trunc);
   file << "\
     oxoxoo    ooxoo\n\
@@ -35,4 +25,4 @@ int ShrubberyCreationForm::beExecuted() const {
   return 0;
 }
 
-ShrubberyCreationForm::~ShrubberyCreationForm() throw() {}
+ShrubberyCreationForm::~ShrubberyCreationForm() {}

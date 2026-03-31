@@ -21,7 +21,7 @@ AForm* Intern::makeRobotomyRequestForm(std::string target) const {
   return new RobotomyRequestForm(target);
 }
 
-AForm* Intern::makeForm(const std::string name, std::string target) {
+AForm* Intern::makeForm(std::string name, std::string target) {
   AForm* (Intern::* make[])(std::string) const = {
       &Intern::makeShrubberyCreationForm,
       &Intern::makePresidentialPardonForm,

@@ -3,16 +3,6 @@
 ShrubberyCreationForm::ShrubberyCreationForm(std::string target)
     : AForm(target, 145, 137) {}
 
-ShrubberyCreationForm::ShrubberyCreationForm(const ShrubberyCreationForm& other)
-    : AForm(other) {}
-
-ShrubberyCreationForm& ShrubberyCreationForm::operator=(
-    const ShrubberyCreationForm& other) {
-  if (this == &other) return *this;
-  *this = other;
-  return *this;
-}
-
 int ShrubberyCreationForm::beExecuted() const {
   std::ofstream file;
   file.exceptions(std::fstream::failbit | std::fstream::badbit);

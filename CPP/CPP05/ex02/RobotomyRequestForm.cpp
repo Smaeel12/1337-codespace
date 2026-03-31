@@ -5,16 +5,6 @@
 RobotomyRequestForm::RobotomyRequestForm(std::string target)
     : AForm(target, 72, 45) {}
 
-RobotomyRequestForm::RobotomyRequestForm(const RobotomyRequestForm& other)
-    : AForm(other) {}
-
-RobotomyRequestForm& RobotomyRequestForm::operator=(
-    const RobotomyRequestForm& other) {
-  if (this == &other) return *this;
-  *this = other;
-  return *this;
-}
-
 int RobotomyRequestForm::beExecuted() const {
   if (std::rand() % 2)
     std::cerr << "robotomy failed\n";

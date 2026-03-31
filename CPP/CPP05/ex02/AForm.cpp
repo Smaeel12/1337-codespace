@@ -36,13 +36,13 @@ AForm& AForm::operator=(const AForm& other) {
   return *this;
 }
 
-const std::string AForm::getName() const throw() { return this->name_; }
+const std::string AForm::getName() const { return this->name_; }
 
-int AForm::getExecutionGrade() const throw() { return this->executionGrade_; }
+int AForm::getExecutionGrade() const { return this->executionGrade_; }
 
-int AForm::getSignGrade() const throw() { return this->signGrade_; }
+int AForm::getSignGrade() const { return this->signGrade_; }
 
-bool AForm::getIsSigned() const throw() { return this->isSigned_; }
+bool AForm::getIsSigned() const { return this->isSigned_; }
 
 int AForm::beSigned(const Bureaucrat& signer) {
   if (this->signGrade_ < signer.getGrade()) throw AForm::GradeTooLowException();
